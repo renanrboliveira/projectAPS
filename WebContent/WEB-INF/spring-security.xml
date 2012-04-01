@@ -1,0 +1,31 @@
+<beans:beans xmlns="http://www.springframework.org/schema/security"
+	xmlns:beans="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+	http://www.springframework.org/schema/beans/spring-beans-3.1.xsd
+	http://www.springframework.org/schema/security
+	http://www.springframework.org/schema/security/spring-security-3.1.xsd">
+
+	<http auto-config="true" access-denied-page="/negado.xhtml">
+		<intercept-url pattern="/restrito/paginaPrincipal.xhtml"
+			access="ROLE_USER" />
+		<intercept-url pattern="/admin/**" access="ROLE_ADMIN" />
+		<form-login login-page="/login.xhtml"
+			authentication-failure-url="/negado.xhtml" />
+
+	</http>
+
+<!--
+	<authentication-manager>
+		<authentication-provider>
+			<jdbc-user-service data-source-ref="dataSource"
+				users-by-username-query="SELECT login, senha, 'true' as status FROM usuario WHERE login=?"
+				authorities-by-username-query="SELECT login, papel FROM usuario WHERE login=?" />
+		</authentication-provider>
+	</authentication-manager>
+-->
+
+		<authentication-manager> <authentication-provider> <user-service> <user name="admin" 
+		password="123" authorities="ROLE_ADMIN" /> <user name="renan" password="123" 
+		authorities="ROLE_USER" /> </user-service> </authentication-provider> </authentication-manager>
+
+</beans:beans>

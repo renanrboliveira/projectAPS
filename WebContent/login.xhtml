@@ -1,0 +1,27 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html">
+    <h:head>
+        <title>Login Page</title>
+    </h:head>
+    <h:body>
+        <h1>Login Please</h1>
+        <p>This is a really simple login page</p>
+        <h:form id="loginForm" prependId="false">     
+            <h:panelGroup>
+                UN: <h:inputText id="j_username" required="true"/>
+            </h:panelGroup>
+            <br />
+            <h:panelGroup>
+                PW: <h:inputText id="j_password" required="true"/>
+            </h:panelGroup>
+            <br /><br />
+            <h:panelGroup>
+                <h:commandButton type="submit" id="login" 
+                  action="#{authenticationBean.doLogin()}" value="Login" /> 
+            </h:panelGroup>
+        </h:form>
+    </h:body>
+</html>

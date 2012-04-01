@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui" xmlns:ui="http://java.sun.com/jsf/facelets">
+
+    <h:head>
+        <link rel="stylesheet" type="text/css"  href="../css/estilo.css"/>  
+
+    </h:head>
+    <h:body>
+
+        <ui:composition template="../templates/interna.xhtml">
+
+            <ui:define name="body">
+
+                <h:form>
+                    <p:growl id="msg" showDetail="true" life="1000"/>  
+                    <p:messages id="messages" />  
+                    <p:growl id="growl" showDetail="true" sticky="true" life="1000" />  
+
+
+
+
+                    <p:panelGrid id="grid" columns="2" style="width: 500px;">  
+
+                        <f:facet name="header">  
+                            Cadastro de Usuario 
+                        </f:facet>  
+
+
+                        <h:outputText value="Nome: *" />  
+                        <p:inputText id="nome" required="true" value="#{usuarioBean.usuario.nome}"> 
+                            <p:message for="nome" />  
+                        </p:inputText>
+
+
+                        <h:outputText value="Email: *" />  
+                        <p:inputText id="email" required="true" value="#{usuarioBean.usuario.email}">   
+                            <p:message for="email" />  
+                        </p:inputText>
+
+
+                        <h:outputText value="Login: *" />  
+                        <p:inputText id="login" required="true" value="#{usuarioBean.usuario.login}">
+                            <p:message for="login" />  
+                        </p:inputText>  
+
+
+                        <h:outputText value="Senha: " />  
+                        <p:password id="senha" feedback="true" value="#{usuarioBean.usuario.senha}"/>  
+
+
+                        <h:outputText value="Cargo: *" />  
+                        <p:inputText id="cargo" required="true" value="#{usuarioBean.usuario.cargo}"/>
+
+                        <h:outputText value="Adiministrador: " />  
+                        <p:selectBooleanButton value="#{usuarioBean.usuario.papel}" onLabel="Sim" offLabel="Não" onIcon="ui-icon-check" offIcon="ui-icon-close" />  
+
+
+                        <h:outputText value="Status: " />  
+                        <p:selectBooleanButton value="#{usuarioBean.usuario.status}" onLabel="Sim" offLabel="Não" onIcon="ui-icon-check" offIcon="ui-icon-close" />  
+
+                        <f:facet name="footer">
+                            <center>
+                                <p:commandButton value="Limpar" type="reset" />  
+                                <p:commandButton value="Save" actionListener="#{usuarioBean.novo()}" update="growl,grid"/>  
+
+                            </center>
+                        </f:facet> 
+                    </p:panelGrid>
+
+                    <p></p>
+
+                    <p:tabView id="tabView" var="usuario" value="#{usuarioBean.listar()}">  
+
+                        <p:tab id="playerTab" title="#{usuario.nome}">  
+
+                            <h:panelGrid columns="2" cellpadding="10">  
+                                <p:graphicImage id="playerImg" value="/images/barca/#{player.photo}" />  
+
+                                <h:panelGrid columns="2" cellpadding="10">  
+                                    <h:outputText value="Nome: " />  
+                                    <h:outputText id="playerName" value="#{usuario.nome}" style="font-weight: bold"/>  
+
+                                    <h:outputText value="Email: " />  
+                                    <h:outputText id="playerNumber" value="#{usuario.email}" style="font-weight: bold"/>  
+
+                                    <h:outputText value="Login: " />  
+                                    <h:outputText id="playerPosition" value="#{usuario.login}" style="font-weight: bold"/> 
+
+                                    <h:outputText value="Cargo: " />  
+
+                                    <p:inplace id="ajaxInplace" editor="true">  
+                                        <p:inputText value="#{usuario.cargo}"  
+                                                     required="true" label="cargo"/>  
+                                    </p:inplace>
+                                    <p:commandButton actionListener="#{usuarioBean.remover()}" value="Alterar" update="playerTab"></p:commandButton>  
+                                </h:panelGrid>  
+
+                            </h:panelGrid>  
+
+                        </p:tab>  
+
+                    </p:tabView>  
+
+
+                </h:form>
+
+            </ui:define>
+
+        </ui:composition>
+
+    </h:body>
+</html>
