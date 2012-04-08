@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://java.sun.com/jsf/facelets">
+
+<h:head>
+	<link rel="stylesheet" type="text/css" href="../css/estilo.css" />
+
+</h:head>
+<h:body>
+
+	<ui:composition template="../templates/interna.xhtml">
+
+		<ui:define name="body">
+			<h1 class="title ui-widget-header ui-corner-all">Panel</h1>
+			<p:dataTable id="usuario" var="usuario" value="#{usuarioBean.listar}"
+				tableStyle="width:auto">
+
+				<p:column headerText="Nome" style="width:100px">
+					<h:outputText value="#{usuario.nome}" />
+				</p:column>
+
+				<p:column headerText="Email" style="width:100px">
+					<h:outputText value="#{usuario.email}" />
+				</p:column>
+
+				<p:column headerText="Cargo" style="width:100px">
+					<h:outputText value="#{usuario.cargo}" />
+				</p:column>
+
+				<p:column headerText="Login" style="width:100px">
+					<h:outputText value="#{usuario.login}" />
+				</p:column>
+
+				<p:column style="width:40px">
+					<h:panelGrid columns="3" styleClass="actions" cellpadding="2">
+						<p:commandButton id="selectButton" update=":form:display"
+							oncomplete="carDialog.show()" icon="ui-icon-search" title="View">
+							<f:setPropertyActionListener value="#{usuario}"
+								target="#{usuarioBean.usuario}" />
+						</p:commandButton>
+					</h:panelGrid>
+				</p:column>
+
+			</p:dataTable>
+
+			<p:dialog header="Car Detail" widgetVar="carDialog" resizable="false"
+				id="carDlg" showEffect="fade" hideEffect="explode" modal="true">
+
+				<h:panelGrid id="display" columns="2" cellpadding="4"
+					style="margin:0 auto;">
+
+					<f:facet name="header">
+
+					</f:facet>
+
+					<h:outputText value="Model:" />
+					<h:outputText value="#{usuarioBean.usuario.nome}"
+						style="font-weight:bold" />
+
+					<h:outputText value="Year:" />
+					<h:outputText value="#{usuarioBean.usuario.email}"
+						style="font-weight:bold" />
+
+
+					<h:outputText value="Manufacturer:" />
+					<h:outputText value="#{usuarioBean.usuario.cargo}"
+						style="font-weight:bold" />
+
+					<h:outputText value="Color:" />
+					<h:outputText value="#{usuarioBean.usuario.login}"
+						style="font-weight:bold" />
+
+				</h:panelGrid>
+
+			</p:dialog>
+		</ui:define>
+
+	</ui:composition>
+</h:body>
+</html>

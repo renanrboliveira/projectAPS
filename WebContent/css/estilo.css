@@ -1,40 +1,43 @@
 body {
-
-    background-color:#ccc;
-    font:12px Arial, Helvetica, sans-serif;
-    margin:0;
-    padding:0;
-    text-align:center; /* hack para o IE */
+	background-image: linear-gradient(bottom, rgb(133, 130, 133) 43%,
+		rgb(28, 26, 21) 100% );
+	background-image: -o-linear-gradient(bottom, rgb(133, 130, 133) 43%,
+		rgb(28, 26, 21) 100% );
+	background-image: -moz-linear-gradient(bottom, rgb(133, 130, 133) 43%,
+		rgb(28, 26, 21) 100% );
+	background-image: -webkit-linear-gradient(bottom, rgb(133, 130, 133) 43%,
+		rgb(28, 26, 21) 100% );
+	background-image: -ms-linear-gradient(bottom, rgb(133, 130, 133) 43%,
+		rgb(28, 26, 21) 100% );
+	background-image: -webkit-gradient(linear, left bottom, left top, color-stop(0.43, rgb(133
+		, 130, 133) ), color-stop(1, rgb(28, 26, 21) ) );
+	font: 12px Arial, Helvetica, sans-serif;
+	margin: 0;
+	padding: 0;
+	text-align: center; /* hack para o IE */
 }
+
 .login {
-    margin-top: -100px;
-    margin-left: -100px;
-    left: 50%;
-    top: 50%;
-    position: fixed;
-
+	margin-top: -100px;
+	margin-left: -100px;
+	left: 50%;
+	top: 50%;
+	position: fixed;
 }
 
-#container{
-
-
-            
-
-
+#container {
+	
 }
 
-#menu{
-    
-    width: 960px;
-    
+#menu {
+	width: 960px;
 }
 
-#all{
-    width: 960px;
-    margin:0 auto; 
+#all {
+	width: 960px;
+	margin: 0 auto;
 }
 
-.header{
-    height: 100px;
+.header {
+	height: 100px;
 }
-

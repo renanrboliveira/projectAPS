@@ -14,13 +14,14 @@
 
         <ui:composition template="../templates/interna.xhtml">
 
-            <ui:define name="body">
-
+            <ui:define name="body">	
+            	<br />
                 <h:form>
+                	
                     <p:growl id="msg" showDetail="true" life="1000"/>  
                     <p:messages id="messages" />  
                     <p:growl id="growl" showDetail="true" sticky="true" life="1000" />  
-
+			
 
 
 
@@ -73,39 +74,6 @@
                     </p:panelGrid>
 
                     <p></p>
-
-                    <p:tabView id="tabView" var="usuario" value="#{usuarioBean.listar()}">  
-
-                        <p:tab id="playerTab" title="#{usuario.nome}">  
-
-                            <h:panelGrid columns="2" cellpadding="10">  
-                                <p:graphicImage id="playerImg" value="/images/barca/#{player.photo}" />  
-
-                                <h:panelGrid columns="2" cellpadding="10">  
-                                    <h:outputText value="Nome: " />  
-                                    <h:outputText id="playerName" value="#{usuario.nome}" style="font-weight: bold"/>  
-
-                                    <h:outputText value="Email: " />  
-                                    <h:outputText id="playerNumber" value="#{usuario.email}" style="font-weight: bold"/>  
-
-                                    <h:outputText value="Login: " />  
-                                    <h:outputText id="playerPosition" value="#{usuario.login}" style="font-weight: bold"/> 
-
-                                    <h:outputText value="Cargo: " />  
-
-                                    <p:inplace id="ajaxInplace" editor="true">  
-                                        <p:inputText value="#{usuario.cargo}"  
-                                                     required="true" label="cargo"/>  
-                                    </p:inplace>
-                                    <p:commandButton actionListener="#{usuarioBean.remover()}" value="Alterar" update="playerTab"></p:commandButton>  
-                                </h:panelGrid>  
-
-                            </h:panelGrid>  
-
-                        </p:tab>  
-
-                    </p:tabView>  
-
 
                 </h:form>
 
