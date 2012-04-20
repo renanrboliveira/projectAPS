@@ -27,8 +27,18 @@ public class Cliente implements Serializable {
     
     @ManyToMany
     private List<Projeto> projetos;
+    
+    
 
-    public String getNome() {
+    public List<Projeto> getProjetos() {
+		return projetos;
+	}
+
+	public void setProjetos(List<Projeto> projetos) {
+		this.projetos = projetos;
+	}
+
+	public String getNome() {
         return nome;
     }
 

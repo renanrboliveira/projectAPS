@@ -6,6 +6,8 @@ package com.renanoliveira.entity;
 
 import java.io.Serializable;
 import java.util.Date;
+
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -13,6 +15,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 /**
  *
@@ -34,18 +37,18 @@ public class Atividade implements Serializable {
     private String prioridade;
     
     @ManyToOne
-    @JoinColumn
+    @JoinColumn(name="id_usuario")
     private Usuario usuario;
      
     @ManyToOne
-    @JoinColumn
+    @JoinColumn(name="id_projeto")
     private Projeto projeto;
     
-    @Temporal(javax.persistence.TemporalType.DATE)
+    @Temporal(TemporalType.DATE)
     private Date dataInicio;
-    @Temporal(javax.persistence.TemporalType.DATE)
+    @Temporal(TemporalType.DATE)
     private Date dataTermino;
-    @Temporal(javax.persistence.TemporalType.DATE)
+    @Temporal(TemporalType.DATE)
     private Date dataCadastro;
 
     public Usuario getUsuario() {
@@ -128,26 +131,7 @@ public class Atividade implements Serializable {
         this.id = id;
     }
 
-    @Override
-    public int hashCode() {
-        int hash = 0;
-        hash += (id != null ? id.hashCode() : 0);
-        return hash;
-    }
-
-    @Override
-    public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Atividade)) {
-            return false;
-        }
-        Atividade other = (Atividade) object;
-        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
-            return false;
-        }
-        return true;
-    }
-
+   
     @Override
     public String toString() {
         return "com.renanoliveira.entity.Atividade[ id=" + id + " ]";

@@ -45,7 +45,6 @@ public abstract class GenericDAO<T> {
 
     // Using the unchecked because JPA does not have a
     // em.getCriteriaBuilder().createQuery()<T> method
-    @SuppressWarnings({"unchecked", "rawtypes"})
     public List<T> findAll() {
         //CriteriaQuery cq = entityManager.getCriteriaBuilder().createQuery();
         //cq.select(cq.from(entityClass));

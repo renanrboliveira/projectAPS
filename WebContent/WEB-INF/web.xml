@@ -23,6 +23,7 @@
     <welcome-file-list>
         <welcome-file>login.xhtml</welcome-file>
     </welcome-file-list>
+    
   <!-- PRIME FACES --> 
     <servlet> 
         <servlet-name>Resource Servlet</servlet-name> 
@@ -37,33 +38,14 @@
         <param-name>primefaces.THEME</param-name> 
         <param-value>ui-darkness</param-value>
     </context-param>
-    
-    <!-- Início das configurações para o Spring Security 3 -->
-  <!-- ========================== SPRING RELATED ============================= -->
-    <context-param>
-        <param-name>contextConfigLocation</param-name>
-        <param-value>
-            /WEB-INF/applicationContext.xml
-            /WEB-INF/spring-security.xml
-        </param-value>
-    </context-param>
-    <listener>
-        <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
-    </listener>
-    
-    <!-- Spring Security -->
-    <filter>  
-        <filter-name>springSecurityFilterChain</filter-name>  
-        <filter-class>org.springframework.web.filter.DelegatingFilterProxy</filter-class>  
-    </filter>  
-    <filter-mapping>  
-        <filter-name>springSecurityFilterChain</filter-name>  
-        <url-pattern>/*</url-pattern>  
-        <dispatcher>REQUEST</dispatcher>  
-        <dispatcher>FORWARD</dispatcher>  
-    </filter-mapping> 
-<!-- ////////////////////////// END: SPRING RELATED //////////////////////// -->
-  <!-- Fim das configuração para utilizar o Spring Security 3 -->
- 
 
+	<filter>
+		<filter-name>Filtro</filter-name>
+		<filter-class>com.renanoliveira.util.FilterSession</filter-class>
+	</filter>
+
+	<filter-mapping>
+		<filter-name>Filtro</filter-name>
+		<url-pattern>*.xhtml</url-pattern>
+	</filter-mapping> 
 </web-app>

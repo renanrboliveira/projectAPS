@@ -7,10 +7,12 @@ package com.renanoliveira.entity;
 import java.io.Serializable;
 import java.util.List;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 
 /**
  *
@@ -27,8 +29,21 @@ public class Projeto implements Serializable {
     
     @ManyToMany(mappedBy="projetos")
     private List<Cliente> clientes;
+    
+    @OneToMany(mappedBy="projeto",targetEntity = Atividade.class, fetch=FetchType.LAZY )
+    private List<Atividade> atividades;
+    
+    
 
-    public List<Cliente> getClientes() {
+    public List<Atividade> getAtividades() {
+		return atividades;
+	}
+
+	public void setAtividades(List<Atividade> atividades) {
+		this.atividades = atividades;
+	}
+
+	public List<Cliente> getClientes() {
         return clientes;
     }
 

@@ -13,58 +13,34 @@ import com.renanoliveira.entity.Cliente;
 import com.renanoliveira.entity.Projeto;
 import com.renanoliveira.entity.Usuario;
 
-public class FachadaTest {
-	
+public class FachadaTest{
+
 	private Usuario usuario;
 	private Fachada fachada;
 	private Projeto projeto;
 	private Atividade atividade;
-	private Cliente cliente;
-	
-	
+	private Cliente cliente;	
+
 	public FachadaTest(){
+		fachada = new Fachada();
+	}
+	
+
+	@Test
+	public void criarProjeto() {
+		
+		projeto = new Projeto();
+		projeto.setNome("APS PROJETO,33");
+		fachada.criarProjeto(projeto);
+				
+		Assert.assertEquals(fachada.buscarProjetoPorID(1).getNome(), projeto.getNome());
+
+	}
+
+	@Test
+	public void criarUsuario() {
 		
 		usuario = new Usuario();
-		projeto = new Projeto();
-		atividade = new Atividade();
-		cliente = new Cliente();
-		fachada = new Fachada();
-		
-		montarDadosUsuario();
-		montarDadosAtividade();
-		montarDadosCliente();
-		montarDadosProjeto();
-
-		
-	}
-	
-	public void montarDadosAtividade(){
-		
-		atividade.setNome("[Troca] Boleto de troca");
-		atividade.setDataInicio(new Date());
-		atividade.setDataTermino(new Date());
-		atividade.setDescricao("O sistema está permitindo gerar boleto de troca do mesmo orçamento. " +
-				"Exe:Foi gerado boleto de troca no nome da cliente JOANA DARC " +
-				"na loja de Caruaru com o número 45 do orçamento 9246. Logo em seguida o " +
-				"pessoal conseguiu gerar um outro boleto 46 com o nome de JOANA DARC CINTRA FARIAS" +
-				" ZEFERINO do mesmo orçamento. (A troca foi referente a quantidade total do orçamento).");
-		atividade.setDataCadastro(new Date());
-		atividade.setStatus("ABERTA");
-		atividade.setPrioridade("URGENTE");
-		
-		
-	}
-	public void montarDadosProjeto(){
-		projeto.setNome("APS PROJETO");
-		List<Cliente> clientes = new ArrayList<Cliente>();
-		clientes.add(cliente);
-		projeto.setClientes(clientes);
-	}
-	public void montarDadosCliente(){
-		cliente.setNome("PROF Rodrigo Vilar");		
-	}
-	
-	public void montarDadosUsuario(){
 		usuario.setCargo("ASPIRA");
 		usuario.setEmail("renan@gmail.com");
 		usuario.setLogin("renan");
@@ -72,101 +48,303 @@ public class FachadaTest {
 		usuario.setPapel("ROLE_ADMIN");
 		usuario.setSenha("123213");
 		usuario.setStatus(true);
-		
-	}
-
-	@Test
-	public void adcionarUsuarioTest() {
-		
-		
 		fachada.criarUsuario(usuario);
-				
-		Assert.assertEquals("renan", fachada.buscarUsuarioPorId(usuario.getId()).getLogin());
+		
+		Assert.assertNull(fachada.buscarAtividadePorId(1));
+		
 
 	}
-	
+
 	@Test
-	public void adicionarProjetoTest(){
+	public void criarCliente() {
 		
+		cliente = new Cliente();
+		cliente.setNome("PROF Rodrigo Vilar");
+		List<Projeto> projetos = new ArrayList<Projeto>();
+		cliente.setProjetos(projetos);
+		fachada.criarCliente(cliente);
+		Assert.assertNull(fachada.buscarClientePorId(1));
+
 		
 	}
-	
+
 	@Test
-	public void adicionarClienteTest(){
+	public void criarAtividade() {
 		
+		atividade = new Atividade();
+		atividade.setNome("[MELHORIA] BoletO");
+		atividade.setDataInicio(new Date());
+		atividade.setDataTermino(new Date());
+		atividade
+				.setDescricao("asdfffasdfggasdfggas3edmd.");
+		atividade.setDataCadastro(new Date());
+		atividade.setStatus("ABERTA");
+		atividade.setPrioridade("IMPORTANTE");
+		atividade.setUsuario(fachada.buscarUsuarioPorId(2));
+		fachada.criarAtividade(atividade);
+		
+		Assert.assertNotNull(fachada.buscarAtividadePorId(3));
+
+	}
+
+	@Test
+	public void criarProjetoSemCliente() {
+
+		projeto = new Projeto();
+		projeto.setNome("APS PROJETO");
+		projeto.setClientes(null);
+		fachada.criarProjeto(projeto);
+		
+		Assert.assertNotNull(fachada.buscarAtividadePorNome("APS PROJETO"));
+
+	}
+
+	@Test
+	public void criarProjetoSemAtividade() {
+		
+		String stringTest = "APS PROJETO Sem Atividade";
+		
+		projeto = new Projeto();
+		projeto.setNome(stringTest);
+		projeto.setAtividades(null);		
+		fachada.criarProjeto(projeto);
+		
+		Assert.assertNotNull(fachada.buscarAtividadePorNome(stringTest));
+
+	}
+
+	@Test(expected=Exception.class)
+	public void criarAtividadeSemProjeto() {
+
+		atividade.setNome("[Troca] Boleto de troca");
+		atividade.setDataInicio(new Date());
+		atividade.setDataTermino(new Date());
+		atividade
+				.setDescricao("O sistema está permitindo gerar boleto de troca do mesmo orçamento. "
+						+ "Exe:Foi gerado boleto de troca no nome da cliente JOANA DARC "
+						+ "na loja de Caruaru com o número 45 do orçamento 9246. Logo em seguida o "
+						+ "pessoal conseguiu gerar um outro boleto 46 com o nome de JOANA DARC CINTRA FARIAS"
+						+ " ZEFERINO do mesmo orçamento. (A troca foi referente a quantidade total do orçamento).");
+		atividade.setDataCadastro(new Date());
+		atividade.setStatus("ABERTA");
+		atividade.setPrioridade("URGENTE");
+		atividade.setUsuario(usuario);
+		atividade.setProjeto(null);
+		fachada.criarAtividade(atividade);
 		
 	}
-	
-	@Test
-	public void adicionarAtividadeTest(){
+
+	@Test(expected=Exception.class)
+	public void criarAtividadeSemUsuario() {
+		atividade = new Atividade();
 		
+		atividade.setNome("[Troca] Boleto de troca 2");
+		atividade.setDataInicio(new Date());
+		atividade.setDataTermino(new Date());
+		atividade
+				.setDescricao("O sistema safasdfasdfasdfasdfasdfsadfas fsdfasf");
+		atividade.setDataCadastro(new Date());
+		atividade.setStatus("FECHADA");
+		atividade.setPrioridade("IMPORTANTE");
+		atividade.setUsuario(null);
 		
 	}
-	
+
 	
 	@Test
-	public void listarTodosUsuariosTest(){
+	public void criarUsuarioSemAtividade() {
 		
+		usuario = new Usuario();
+		usuario.setCargo("ASPIRA");
+		usuario.setEmail("renan@gmail.com");
+		usuario.setLogin("renan");
+		usuario.setNome("Renan 1");
+		usuario.setPapel("ROLE_ADMIN");
+		usuario.setSenha("123213");
+		usuario.setStatus(true);		
+		usuario.setAtividades(null);
+		fachada.criarUsuario(usuario);
+		
+		Assert.assertNotNull(fachada.buscarUsuarioPorNome("Renan 1"));
+		
+	}
+
+	@Test
+	public void criarClienteSemProjeto() {
+		cliente = new Cliente();
+		cliente.setNome("PROF Rodrigo Vilar Teste");
+		cliente.setProjetos(null);
+		fachada.criarCliente(cliente);
+		Assert.assertNull(fachada.buscarClientePorNome("PROF Rodrigo Vilar Teste"));
+	}
+
+
+
+	@Test
+	public void listarTodosUsuariosTest() {
+
 		Assert.assertNotNull(fachada.buscarTodosUsuarios());
-		
+
 	}
-	
+
 	@Test
-	public void listarTodosClientesTest(){
-		
-		
+	public void listarTodosClientesTest() {
+
+		Assert.assertNotNull(fachada.buscarTodosClientes());
+
 	}
-	
+
 	@Test
-	public void listarTodasAtividadesTest(){
-		
-		
+	public void listarTodasAtividadesTest() {
+
+		Assert.assertNotNull(fachada.buscarTodasAtividades());
+
 	}
-	
+
 	@Test
-	public void listarTodosProjetosTest(){
-		
-		
+	public void listarTodosProjetosTest() {
+
+		Assert.assertNotNull(fachada.buscarTodosProjetos());
+
 	}
-	
+
 	@Test
-	public void alerarClienteTest(){
+	public void alterarClienteTest() {
 		
+		Cliente clienteNovo = new Cliente();
+		clienteNovo.setNome("JoaoZinho");
+		Cliente clienteParaAlterar = fachada.buscarClientePorId(1);
+		clienteParaAlterar.setNome(clienteNovo.getNome());
+		fachada.alterarCliente(clienteParaAlterar);
 		
-	}
-	
-	@Test
-	public void alerarAtividadeTest(){
-		
-		
-	}
-	
-	@Test
-	public void alerarProjetoTest(){
-		
-		
-	}
-	
-	@Test
-	public void alerarUsuarioTest(){
+		Assert.assertEquals(fachada.buscarClientePorId(1).getNome(), clienteNovo.getNome());
 		
 		
 	}
-	
+
 	@Test
-	public void removerUsuarioTest(){
+	public void alterarAtividadeTest() {
+		Atividade atividadeNova = new Atividade();
+		atividadeNova.setNome("Atividade outra coisa");
+		atividadeNova.setPrioridade("IMPORTANTE");
+		Atividade atividadeParaAlterar = fachada.buscarAtividadePorId(1);
+		atividadeParaAlterar.setNome(atividadeNova.getNome());
+		fachada.alterarAtividade(atividadeParaAlterar);
 		
+		Assert.assertEquals(fachada.buscarClientePorId(1).getNome(), atividadeNova.getNome());
+		
+	}
+
+	@Test
+	public void alterarProjetoTest() {
+		Cliente clienteNovo = new Cliente();
+		clienteNovo.setNome("APS Distribuidora");
+		Cliente clienteParaAlterar = fachada.buscarClientePorId(1);
+		clienteParaAlterar.setNome(clienteNovo.getNome());
+		fachada.alterarCliente(clienteParaAlterar);
+		
+		Assert.assertEquals(fachada.buscarClientePorId(1).getNome(), clienteNovo.getNome());
+		
+	}
+
+	@Test
+	public void alterarUsuarioTest() {
+		Usuario usuarioNovo = new Usuario();
+		usuarioNovo.setNome("JoaoZinho");
+		Usuario usuarioParaAlterar = fachada.buscarUsuarioPorId(1);
+		usuarioParaAlterar.setNome(usuarioNovo.getNome());
+		fachada.alterarUsuario(usuarioParaAlterar);
+		
+		Assert.assertEquals(fachada.buscarClientePorId(1).getNome(), usuarioNovo.getNome());
+		
+	}
+
+	@Test
+	public void removerUsuarioTest() {
+		Usuario usuario = fachada.buscarUsuarioPorId(2);		
 		fachada.removerUsuario(usuario);
+		Usuario usuarioRemovido = fachada.buscarUsuarioPorId(2);		
+		Assert.assertNull(usuarioRemovido);
 		
-		Assert.assertNull(fachada.buscarUsuarioPorId(usuario.getId()).getLogin());
-		
+
+
+	}
+
+	@Test
+	public void removerProjetoTest() {
+		Projeto projeto = fachada.buscarProjetoPorID(2);		
+		fachada.removerProjeto(projeto);
+		Projeto projetoRemovido = fachada.buscarProjetoPorID(2);		
+		Assert.assertNull(projetoRemovido);
+	}
+
+	@Test
+	public void removerClienteTest() {
+		Cliente cliente = fachada.buscarClientePorId(2);		
+		fachada.removerCliente(cliente);
+		Cliente clienteRemovido = fachada.buscarClientePorId(2);		
+		Assert.assertNull(clienteRemovido);
+	}
+
+	@Test
+	public void removerAtividadeTest() {
+		Atividade atividade = fachada.buscarAtividadePorId(2);		
+		fachada.removerAtividade(atividade);
+		Atividade atividadeRemovida = fachada.buscarAtividadePorId(2);		
+		Assert.assertNull(atividadeRemovida);
 	}
 	
 
+	@Test
+	public void localizarUsuarioPorNome() {
+		
+		Usuario usuario = fachada.buscarUsuarioPorNome("Renan 1");
+		Assert.assertNotNull(usuario);
+
+	}
+
+	@Test
+	public void localizarProjetoPorNome() {
+		Projeto projeto = fachada.buscaProjetoPorNome("APS Projeto");
+		Assert.assertNotNull(projeto);
+		
+	}
+
+	@Test
+	public void localizarClientePorNome() {
+		Cliente cliente = fachada.buscarClientePorNome("PROF Rodrigo Vilar");
+		Assert.assertNotNull(cliente);
+	}
+
+	@Test
+	public void localizarAtividadePorNome() {
+		Atividade atividade = fachada.buscarAtividadePorNome("Agua e Sal");
+		Assert.assertNotNull(atividade);
+	}
 	
-	
-	
-	
-	
+	@Test
+	public void localizarUsuarioPorID() {
+		Usuario usuario = fachada.buscarUsuarioPorId(2);
+		Assert.assertNotNull(usuario);
+	}
+
+	@Test
+	public void localizarProjetoPorID() {
+	  Projeto projeto = fachada.buscarProjetoPorID(1);
+	  Assert.assertNotNull(projeto);
+	}
+
+	@Test
+	public void localizarClientePorID() {
+		
+		Cliente cliente = fachada.buscarClientePorId(3);
+		Assert.assertNotNull(cliente);
+	}
+
+	@Test
+	public void localizarAtividadePorID() {
+		Atividade atividade = fachada.buscarAtividadePorId(4);
+		Assert.assertNotNull(atividade);
+	}
 
 }

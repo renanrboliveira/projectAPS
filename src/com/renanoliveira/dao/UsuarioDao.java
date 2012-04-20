@@ -1,5 +1,6 @@
 package com.renanoliveira.dao;
 
+import com.renanoliveira.entity.Cliente;
 import com.renanoliveira.entity.Usuario;
 import java.util.List;
 
@@ -19,6 +20,9 @@ public class UsuarioDao extends GenericDAO<Usuario> {
 
         return getEntityManager().createQuery("SELECT u FROM Usuario u").getResultList();
 
-
+    }
+    
+    public Usuario findByName(String nome){
+    	return (Usuario) getEntityManager().createQuery("SELECT u FROM Usuario u WHERE nome = "+nome).getResultList().get(0);
     }
 }

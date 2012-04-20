@@ -12,10 +12,6 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContext;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.User;
 
 import com.renanoliveira.entity.Usuario;
 import com.renanoliveira.fachada.Fachada;
@@ -41,7 +37,6 @@ public class UsuarioBean {
 
 		
 	}
-
 	
 
 	public void novo() {

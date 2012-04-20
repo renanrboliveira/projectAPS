@@ -1,5 +1,7 @@
 package com.renanoliveira.fachada;
 
+import java.util.List;
+
 import com.renanoliveira.dao.AtividadeDao;
 import com.renanoliveira.dao.ClienteDao;
 import com.renanoliveira.dao.ProjetoDao;
@@ -8,7 +10,6 @@ import com.renanoliveira.entity.Atividade;
 import com.renanoliveira.entity.Cliente;
 import com.renanoliveira.entity.Projeto;
 import com.renanoliveira.entity.Usuario;
-import java.util.List;
 
 /**
  *
@@ -43,7 +44,7 @@ public class Fachada {
     }
 
     public List<Projeto> buscarTodosProjetos() {
-        return projetoDao.findAll();
+        return projetoDao.listarTodos();
     }
 
     public Projeto buscarProjetoPorID(int idProjeto) {
@@ -63,7 +64,7 @@ public class Fachada {
     }
 
     public List<Cliente> buscarTodosClientes() {
-        return clienteDao.findAll();
+        return clienteDao.listarTodos();
     }
 
     public Cliente buscarClientePorId(int idCliente) {
@@ -109,4 +110,21 @@ public class Fachada {
     public Usuario buscarUsuarioPorId(int idUsuario) {
         return usuarioDao.find(idUsuario);
     }
+
+	public Usuario buscarUsuarioPorNome(String nome) {
+		
+		return usuarioDao.findByName(nome);
+	}
+
+	public Projeto buscaProjetoPorNome(String nome) {
+		return projetoDao.findByName(nome);
+	}
+
+	public Cliente buscarClientePorNome(String nome) {
+		return clienteDao.findByName(nome);
+	}
+
+	public Atividade buscarAtividadePorNome(String nome) {
+		return atividadeDao.findByName(nome);
+	}
 }
