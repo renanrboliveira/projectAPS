@@ -6,6 +6,7 @@ import java.util.List;
 
 import junit.framework.Assert;
 
+import org.junit.Before;
 import org.junit.Test;
 
 import com.renanoliveira.entity.Atividade;
@@ -21,9 +22,12 @@ public class FachadaTest{
 	private Atividade atividade;
 	private Cliente cliente;	
 
-	public FachadaTest(){
+	
+	@Before
+	public void setUp() throws Exception {
 		fachada = new Fachada();
 	}
+
 	
 
 	@Test
@@ -95,7 +99,7 @@ public class FachadaTest{
 		projeto.setClientes(null);
 		fachada.criarProjeto(projeto);
 		
-		Assert.assertNotNull(fachada.buscarAtividadePorNome("APS PROJETO"));
+		Assert.assertNotNull(fachada.buscarClientePorNome("APS PROJETO"));
 
 	}
 
@@ -109,7 +113,7 @@ public class FachadaTest{
 		projeto.setAtividades(null);		
 		fachada.criarProjeto(projeto);
 		
-		Assert.assertNotNull(fachada.buscarAtividadePorNome(stringTest));
+		Assert.assertNotNull(fachada.buscarClientePorNome(stringTest));
 
 	}
 

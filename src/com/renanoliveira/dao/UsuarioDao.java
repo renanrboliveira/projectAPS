@@ -21,8 +21,11 @@ public class UsuarioDao extends GenericDAO<Usuario> {
         return getEntityManager().createQuery("SELECT u FROM Usuario u").getResultList();
 
     }
+    //em.createQuery(
+    //		"SELECT e " + "FROM Project p JOIN p.employees e "+ "WHERE p.name = ?1 " + "ORDER BY e.name", Employee.class)
+    //	.setParameter(1, projectName) .getResultList();
     
     public Usuario findByName(String nome){
-    	return (Usuario) getEntityManager().createQuery("SELECT u FROM Usuario u WHERE nome = "+nome).getResultList().get(0);
+    	return (Usuario) getEntityManager().createQuery("SELECT u FROM Usuario u WHERE u.nome = ?1 ", Usuario.class).setParameter(1, nome).getResultList().get(0);
     }
 }
