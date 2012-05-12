@@ -33,6 +33,7 @@ public class FachadaTest{
 	@Test
 	public void criarProjeto() {
 		
+		//setando os dados do projeto
 		projeto = new Projeto();
 		projeto.setNome("APS PROJETO,33");
 		
