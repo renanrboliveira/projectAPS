@@ -125,7 +125,7 @@ public class FachadaTest{
 		atividade.setStatus("ABERTA");
 		atividade.setPrioridade("IMPORTANTE");
 
-		// inserindo os dados do usuário
+		// inserindo os dados do  usuário
 		usuario = new Usuario();
 		usuario.setCargo("ASPIRA");
 		usuario.setEmail("renan@gmail.com");
