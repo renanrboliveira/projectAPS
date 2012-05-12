@@ -114,9 +114,9 @@ public class FachadaTest{
 
 	@Test
 	public void criarAtividade() {
-		
+		//inserindo os dados da atividade
 		atividade = new Atividade();
-		atividade.setNome("[MELHORIA] BoletO");
+		atividade.setNome("[MELHORIA] Boleto Bancário Test");
 		atividade.setDataInicio(new Date());
 		atividade.setDataTermino(new Date());
 		atividade
@@ -124,11 +124,26 @@ public class FachadaTest{
 		atividade.setDataCadastro(new Date());
 		atividade.setStatus("ABERTA");
 		atividade.setPrioridade("IMPORTANTE");
-		atividade.setUsuario(fachada.buscarUsuarioPorId(2));
-		fachada.criarAtividade(atividade);
-		
-		Assert.assertNotNull(fachada.buscarAtividadePorId(3));
 
+		// inserindo os dados do usuário
+		usuario = new Usuario();
+		usuario.setCargo("ASPIRA");
+		usuario.setEmail("renan@gmail.com");
+		usuario.setLogin("renan");
+		usuario.setNome("Renan Oliveira");
+		usuario.setPapel("ROLE_ADMIN");
+		usuario.setSenha("123213");
+		usuario.setStatus(true);
+		//inserindo o usuario
+		atividade.setUsuario(usuario);
+		//criando a atividade
+		fachada.criarAtividade(atividade);
+		//buscando a atividade no banco
+		Atividade atividadeFind = fachada.buscarAtividadePorNome("[MELHORIA] Boleto Bancário Test");
+		//verificando se a atividade foi criada
+		Assert.assertEquals(atividadeFind.getNome(), atividade.getNome());
+		//removendo atividade
+		fachada.removerAtividade(atividadeFind);
 	}
 
 	@Test
