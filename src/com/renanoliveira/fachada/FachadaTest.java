@@ -33,6 +33,7 @@ public class FachadaTest{
 	@Test
 	public void criarProjeto() {
 		
+		//setando os dados do projeto
 		projeto = new Projeto();
 		projeto.setNome("APS PROJETO,33");
 		
@@ -54,6 +55,7 @@ public class FachadaTest{
 	@Test
 	public void criarUsuario() {
 		
+		//inserindo os dados do usuário
 		usuario = new Usuario();
 		usuario.setCargo("ASPIRA");
 		usuario.setEmail("renan@gmail.com");
@@ -62,24 +64,52 @@ public class FachadaTest{
 		usuario.setPapel("ROLE_ADMIN");
 		usuario.setSenha("123213");
 		usuario.setStatus(true);
+		
+		//criando o usuário no banco
 		fachada.criarUsuario(usuario);
 		
-		Assert.assertNull(fachada.buscarAtividadePorId(1));
-		
+		//buscando o usuário criado no banco
+		Usuario usuarioFind = fachada.buscarUsuarioPorNome("Renan Oliveira");
+		//verificando se o usuario foi criado		
+		Assert.assertEquals(usuarioFind, usuario.getNome());
+		//removendo o usuario criado
+		fachada.removerUsuario(usuarioFind);		
 
 	}
 
 	@Test
 	public void criarCliente() {
 		
+		//lista de projetos
+		List<Projeto> projetos = new ArrayList<Projeto>();
+		
+		//inserindo os dados do cliento
 		cliente = new Cliente();
 		cliente.setNome("PROF Rodrigo Vilar");
-		List<Projeto> projetos = new ArrayList<Projeto>();
-		cliente.setProjetos(projetos);
-		fachada.criarCliente(cliente);
-		Assert.assertNull(fachada.buscarClientePorId(1));
-
 		
+		//um cliente tem uma lista de projetos
+		projeto = new Projeto();
+		projeto.setNome("Projeto 1");
+		projetos.add(projeto);
+		projeto = new Projeto();
+		projeto.setNome("Projeto 2");
+		projetos.add(projeto);
+		projeto = new Projeto();
+		projeto.setNome("Projeto 3");
+		projetos.add(projeto);
+		
+		//inserindo os projetos no cliente
+		cliente.setProjetos(projetos);
+		//criando um cliente
+		fachada.criarCliente(cliente);
+		//buscando o cliente criado
+		Cliente clienteFind = fachada.buscarClientePorNome("PROF Rodrigo Vilar");
+		//verificando se o cliente foi criado
+		Assert.assertEquals(clienteFind.getNome(), cliente.getNome());
+		//verficando se os 3 projetos foram adicionados
+		Assert.assertEquals(clienteFind.getProjetos().size(), 3);
+		//removendo o cliente criado
+		fachada.removerCliente(clienteFind);
 	}
 
 	@Test
