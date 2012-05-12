@@ -35,9 +35,19 @@ public class FachadaTest{
 		
 		projeto = new Projeto();
 		projeto.setNome("APS PROJETO,33");
+		
+		//criando o projeto
 		fachada.criarProjeto(projeto);
-				
-		Assert.assertEquals(fachada.buscarProjetoPorID(1).getNome(), projeto.getNome());
+		
+		//buscando o projeto criado
+		Projeto projetoFind = fachada.buscaProjetoPorNome("APS PROJETO,33");
+		
+		//verificando se o projeto foi criado
+		Assert.assertEquals(projetoFind.getNome(), projeto.getNome());
+		
+		//Limpando o projeto criado do banco
+		fachada.removerProjeto(projetoFind);
+		
 
 	}
 
@@ -124,11 +134,11 @@ public class FachadaTest{
 		atividade.setDataInicio(new Date());
 		atividade.setDataTermino(new Date());
 		atividade
-				.setDescricao("O sistema está permitindo gerar boleto de troca do mesmo orçamento. "
+				.setDescricao("O sistema estÔøΩ permitindo gerar boleto de troca do mesmo orÔøΩamento. "
 						+ "Exe:Foi gerado boleto de troca no nome da cliente JOANA DARC "
-						+ "na loja de Caruaru com o número 45 do orçamento 9246. Logo em seguida o "
+						+ "na loja de Caruaru com o nÔøΩmero 45 do orÔøΩamento 9246. Logo em seguida o "
 						+ "pessoal conseguiu gerar um outro boleto 46 com o nome de JOANA DARC CINTRA FARIAS"
-						+ " ZEFERINO do mesmo orçamento. (A troca foi referente a quantidade total do orçamento).");
+						+ " ZEFERINO do mesmo orÔøΩamento. (A troca foi referente a quantidade total do orÔøΩamento).");
 		atividade.setDataCadastro(new Date());
 		atividade.setStatus("ABERTA");
 		atividade.setPrioridade("URGENTE");
