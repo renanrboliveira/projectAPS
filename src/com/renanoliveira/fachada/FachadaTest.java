@@ -13,6 +13,7 @@ import com.renanoliveira.entity.Atividade;
 import com.renanoliveira.entity.Cliente;
 import com.renanoliveira.entity.Projeto;
 import com.renanoliveira.entity.Usuario;
+import com.renanoliveira.logic.LogicException;
 
 public class FachadaTest{
 
@@ -35,20 +36,15 @@ public class FachadaTest{
 		
 		//setando os dados do projeto
 		projeto = new Projeto();
-		projeto.setNome("APS PROJETO,33");
-		
+		projeto.setNome("APS PROJETO,33");		
 		//criando o projeto
-		fachada.criarProjeto(projeto);
-		
+		fachada.criarProjeto(projeto);		
 		//buscando o projeto criado
-		Projeto projetoFind = fachada.buscaProjetoPorNome("APS PROJETO,33");
-		
+		Projeto projetoFind = fachada.buscaProjetoPorNome("APS PROJETO,33");		
 		//verificando se o projeto foi criado
-		Assert.assertEquals(projetoFind.getNome(), projeto.getNome());
-		
+		Assert.assertEquals(projetoFind.getNome(), projeto.getNome());		
 		//Limpando o projeto criado do banco
-		fachada.removerProjeto(projetoFind);
-		
+		fachada.removerProjeto(projetoFind);		
 
 	}
 
@@ -119,8 +115,7 @@ public class FachadaTest{
 		atividade.setNome("[MELHORIA] Boleto Bancário Test");
 		atividade.setDataInicio(new Date());
 		atividade.setDataTermino(new Date());
-		atividade
-				.setDescricao("asdfffasdfggasdfggas3edmd.");
+		atividade.setDescricao("asdfffasdfggasdfggas3edmd.");
 		atividade.setDataCadastro(new Date());
 		atividade.setStatus("ABERTA");
 		atividade.setPrioridade("IMPORTANTE");
@@ -146,15 +141,21 @@ public class FachadaTest{
 		fachada.removerAtividade(atividadeFind);
 	}
 
-	@Test
+	@Test(expected=LogicException.class)
 	public void criarProjetoSemCliente() {
 
+		//inserindo dados do projeto
 		projeto = new Projeto();
+		
 		projeto.setNome("APS PROJETO");
+		
 		projeto.setClientes(null);
+		
+		//criando o projeto
 		fachada.criarProjeto(projeto);
 		
-		Assert.assertNotNull(fachada.buscarClientePorNome("APS PROJETO"));
+		//Verifica se não foi criado 
+		Assert.assertNull(fachada.buscarClientePorNome("APS PROJETO"));
 
 	}
 
@@ -178,12 +179,11 @@ public class FachadaTest{
 		atividade.setNome("[Troca] Boleto de troca");
 		atividade.setDataInicio(new Date());
 		atividade.setDataTermino(new Date());
-		atividade
-				.setDescricao("O sistema est� permitindo gerar boleto de troca do mesmo or�amento. "
+		atividade.setDescricao("O sistema esta permitindo gerar boleto de troca do mesmo orcamento. "
 						+ "Exe:Foi gerado boleto de troca no nome da cliente JOANA DARC "
-						+ "na loja de Caruaru com o n�mero 45 do or�amento 9246. Logo em seguida o "
+						+ "na loja de Caruaru com o numero 45 do orcamento 9246. Logo em seguida o "
 						+ "pessoal conseguiu gerar um outro boleto 46 com o nome de JOANA DARC CINTRA FARIAS"
-						+ " ZEFERINO do mesmo or�amento. (A troca foi referente a quantidade total do or�amento).");
+						+ " ZEFERINO do mesmo orcamento. (A troca foi referente a quantidade total do orcamento).");
 		atividade.setDataCadastro(new Date());
 		atividade.setStatus("ABERTA");
 		atividade.setPrioridade("URGENTE");
@@ -255,34 +255,141 @@ public class FachadaTest{
 
 	@Test
 	public void listarTodasAtividadesTest() {
+		
+		//CRIANDO A 1 ATIVIDADE
+		// inserindo os dados da atividade
+		atividade = new Atividade();
+		atividade.setNome("[MELHORIA] Boleto Bancário Test 1");
+		atividade.setDataInicio(new Date());
+		atividade.setDataTermino(new Date());
+		atividade.setDescricao("haahshhdhshasdfas");
+		atividade.setDataCadastro(new Date());
+		atividade.setStatus("FECHADA");
+		atividade.setPrioridade("IMPORTANTE");
+
+		// inserindo os dados do usuário
+		usuario = new Usuario();
+		usuario.setCargo("ASPIRA 1");
+		usuario.setEmail("renan1@gmail.com");
+		usuario.setLogin("renan1");
+		usuario.setNome("Renan Oliveira 1");
+		usuario.setPapel("ROLE_ADMIN");
+		usuario.setSenha("1232112333");
+		usuario.setStatus(true);
+		// inserindo o usuario
+		atividade.setUsuario(usuario);
+		// criando a 1 atividade
+		fachada.criarAtividade(atividade);
+		//CRIANDO A 2 ATIVIDADE
+		// inserindo os dados da atividade
+		atividade = new Atividade();
+		atividade.setNome("[MELHORIA] Boleto Bancário Test 2");
+		atividade.setDataInicio(new Date());
+		atividade.setDataTermino(new Date());
+		atividade.setDescricao("asdfffasdfggasdfggas3edmdSDFASDFFASS.");
+		atividade.setDataCadastro(new Date());
+		atividade.setStatus("ABERTA");
+		atividade.setPrioridade("IMPORTANTE");
+
+		// inserindo os dados do usuário
+		usuario = new Usuario();
+		usuario.setCargo("ASPIRA 2");
+		usuario.setEmail("renan2@gmail.com");
+		usuario.setLogin("renan2");
+		usuario.setNome("Renan Oliveira 2");
+		usuario.setPapel("ROLE_ADMIN");
+		usuario.setSenha("12321323ASS");
+		usuario.setStatus(true);
+		// inserindo o usuario
+		atividade.setUsuario(usuario);
+		// criando a atividade
+		fachada.criarAtividade(atividade);
+		//CRIANDO A 3 ATIVIDADE
+		// inserindo os dados da atividade
+		atividade = new Atividade();
+		atividade.setNome("[MELHORIA] Boleto Bancário Test 3");
+		atividade.setDataInicio(new Date());
+		atividade.setDataTermino(new Date());
+		atividade.setDescricao("asdfffasdfggasdfggas3edmdASSFSWWSS.");
+		atividade.setDataCadastro(new Date());
+		atividade.setStatus("ABERTA");
+		atividade.setPrioridade("IMPORTANTE");
+
+		// inserindo os dados do usuário
+		usuario = new Usuario();
+		usuario.setCargo("ASPIRA 3");
+		usuario.setEmail("renan3@gmail.com");
+		usuario.setLogin("renan3");
+		usuario.setNome("Renan Oliveira 3");
+		usuario.setPapel("ROLE_ADMIN");
+		usuario.setSenha("12321ASDFFASD3");
+		usuario.setStatus(true);
+		// inserindo o usuario
+		atividade.setUsuario(usuario);
+		// criando a atividade
+		fachada.criarAtividade(atividade);
 
 		Assert.assertNotNull(fachada.buscarTodasAtividades());
+		
+		//removendo as atividades criadas no banco
+		Atividade atividade1 = fachada.buscarAtividadePorNome("[MELHORIA] Boleto Bancário Test 1");
+		fachada.removerAtividade(atividade1);
+		Atividade atividade2 = fachada.buscarAtividadePorNome("[MELHORIA] Boleto Bancário Test 2");
+		fachada.removerAtividade(atividade2);
+		Atividade atividade3 = fachada.buscarAtividadePorNome("[MELHORIA] Boleto Bancário Test 2");
+		fachada.removerAtividade(atividade3);
 
 	}
 
 	@Test
 	public void listarTodosProjetosTest() {
-
+		projeto = new Projeto();
+		projeto.setNome("APS PROJETO 1");		
+		//criando o projeto
+		fachada.criarProjeto(projeto);		
+		projeto = new Projeto();
+		projeto.setNome("APS PROJETO 2");		
+		//criando o projeto
+		fachada.criarProjeto(projeto);		
+		projeto = new Projeto();
+		projeto.setNome("APS PROJETO 3");		
+		//criando o projeto
+		fachada.criarProjeto(projeto);
+		
 		Assert.assertNotNull(fachada.buscarTodosProjetos());
+		
+		//removendo os projetos do banco
+		Projeto projetoFind1 = fachada.buscaProjetoPorNome("APS PROJETO 1");
+		fachada.removerProjeto(projetoFind1);
+		Projeto projetoFind2 = fachada.buscaProjetoPorNome("APS PROJETO 2");
+		fachada.removerProjeto(projetoFind2);
+		Projeto projetoFind3 = fachada.buscaProjetoPorNome("APS PROJETO 3");
+		fachada.removerProjeto(projetoFind3);
 
 	}
 
 	@Test
 	public void alterarClienteTest() {
-		
+		//criando um novo cliente
 		Cliente clienteNovo = new Cliente();
-		clienteNovo.setNome("JoaoZinho");
-		Cliente clienteParaAlterar = fachada.buscarClientePorId(1);
-		clienteParaAlterar.setNome(clienteNovo.getNome());
+		clienteNovo.setNome("Joaozinho");
+		fachada.criarCliente(clienteNovo);
+		//buscando o cliente criado
+		Cliente clienteParaAlterar = fachada.buscarClientePorNome("Joaozinho");
+		clienteParaAlterar.setNome("Joao");		
+		//alterando o cliente
 		fachada.alterarCliente(clienteParaAlterar);
-		
-		Assert.assertEquals(fachada.buscarClientePorId(1).getNome(), clienteNovo.getNome());
-		
-		
+		//buscar  o cliente alterado
+		Cliente clienteAlterado = fachada.buscarClientePorNome("Joao");
+		//verificando se o cliente foi alterado 
+		Assert.assertEquals(clienteAlterado.getNome(),"Joao");
+		//removendo o cliente do bd
+		fachada.removerCliente(clienteAlterado);
 	}
 
 	@Test
 	public void alterarAtividadeTest() {
+		
 		Atividade atividadeNova = new Atividade();
 		atividadeNova.setNome("Atividade outra coisa");
 		atividadeNova.setPrioridade("IMPORTANTE");
@@ -296,6 +403,7 @@ public class FachadaTest{
 
 	@Test
 	public void alterarProjetoTest() {
+		
 		Cliente clienteNovo = new Cliente();
 		clienteNovo.setNome("APS Distribuidora");
 		Cliente clienteParaAlterar = fachada.buscarClientePorId(1);
@@ -405,5 +513,5 @@ public class FachadaTest{
 		Atividade atividade = fachada.buscarAtividadePorId(4);
 		Assert.assertNotNull(atividade);
 	}
-
+	
 }
