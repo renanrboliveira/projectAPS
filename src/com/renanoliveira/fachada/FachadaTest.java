@@ -83,23 +83,23 @@ public class FachadaTest{
 		cliente.setNome("PROF Rodrigo Vilar");
 		fachada.criarCliente(cliente);
 		
-		//um cliente tem uma lista de projetos
-		projeto = new Projeto();
-		projeto.setNome("Projeto 1");
+		Cliente clienteFind = fachada.buscarClientePorNome(cliente.getNome());
 		
 		projeto = new Projeto();
+		projeto.setNome("Projeto 1");
+		projeto.setCliente(clienteFind);
+		fachada.criarProjeto(projeto);//criando projeto
+				
+		projeto = new Projeto();
 		projeto.setNome("Projeto 2");
+		projeto.setCliente(clienteFind);
+		fachada.criarProjeto(projeto);
 		
 		projeto = new Projeto();
 		projeto.setNome("Projeto 3");
-		
-		
-		
+		projeto.setCliente(clienteFind);
+		fachada.criarProjeto(projeto);	
 	
-		//criando um cliente
-	
-		//buscando o cliente criado
-		Cliente clienteFind = fachada.buscarClientePorNome("PROF Rodrigo Vilar");
 		//verificando se o cliente foi criado
 		Assert.assertEquals(clienteFind.getNome(), cliente.getNome());
 
@@ -150,12 +150,11 @@ public class FachadaTest{
 
 		//inserindo dados do projeto
 		projeto = new Projeto();		
-		projeto.setNome("PROJETO BANCARIO");		
-		projeto.setClientes(null); // projeto sem cliente		
+		projeto.setNome("PROJETO BANCARIO");				
 		//criando o projeto
 		fachada.criarProjeto(projeto);		
 		Projeto projetoFind = fachada.buscaProjetoPorNome("PROJETO BANCARIO");
-		Assert.assertEquals(projetoFind.getNome(), projeto.getNome());
+		Assert.assertNull(projetoFind.getCliente());
 		
 	}
 
@@ -186,7 +185,6 @@ public class FachadaTest{
 		atividade.setStatus("ABERTA");
 		atividade.setPrioridade("URGENTE");
 		atividade.setUsuario(usuario);
-		atividade.setProjeto(null);//atividade sem projeto
 		fachada.criarAtividade(atividade);
 		
 		Assert.assertNull(fachada.buscarAtividadePorNome(atividade.getNome()).getProjeto());
@@ -205,7 +203,6 @@ public class FachadaTest{
 		atividade.setDataCadastro(new Date());
 		atividade.setStatus("FECHADA");
 		atividade.setPrioridade("IMPORTANTE");
-		atividade.setUsuario(null);//atividade sem usuario
 		fachada.criarAtividade(atividade);
 		Assert.assertNull(fachada.buscarAtividadePorNome(atividade.getNome()).getUsuario());
 		
@@ -227,7 +224,6 @@ public class FachadaTest{
 		usuario.setPapel("ROLE_ADMIN");
 		usuario.setSenha("123213");
 		usuario.setStatus(true);		
-		usuario.setAtividades(null);//ATIVIDADE NULA
 		fachada.criarUsuario(usuario);
 		//VERIFICANDO SE A ATIVIDADE E NULA
 		Assert.assertNull(fachada.buscarUsuarioPorNome("Renan 1").getAtividades());
