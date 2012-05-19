@@ -14,7 +14,6 @@ import com.renanoliveira.entity.Atividade;
 import com.renanoliveira.entity.Cliente;
 import com.renanoliveira.entity.Projeto;
 import com.renanoliveira.entity.Usuario;
-import com.renanoliveira.logic.LogicException;
 
 public class FachadaTest{
 
@@ -24,30 +23,30 @@ public class FachadaTest{
 	private Atividade atividade;
 	private Cliente cliente;	
 
-	
+	/** CORRIGIDO */
 	@Before
 	public void setUp() throws Exception {
 		fachada = new Fachada();
 	}
 
 	
-
+	/**CORRIGIDO*/
 	@Test
-	public void criarProjeto() throws RepositoryException {
-		
+	public void criarProjeto() throws RepositoryException {		
 		//setando os dados do projeto
 		projeto = new Projeto();
-		projeto.setNome("APS PROJETO,33");		
+		projeto.setNome("APS PROJETO");		
 		//criando o projeto
 		fachada.criarProjeto(projeto);		
-		//buscando o projeto criado
-		Projeto projetoFind = fachada.buscaProjetoPorNome("APS PROJETO,33");		
-		//verificando se o projeto foi criado
-		Assert.assertEquals(projetoFind.getNome(), projeto.getNome());		
-	
+		//buscando o projeto criado dentro do banco de dados
+		Projeto projetoFind = fachada.buscaProjetoPorNome("APS PROJETO");
+		// verifica se o projeto foi criado, com a comparação de nome,
+        // pois nao temos de busca, comparando pelo ID, pois o banco gera seu proprio id
+		Assert.assertEquals(projetoFind.getNome(), projeto.getNome()); 
 
 	}
 
+	/**CORRIGIDO*/
 	@Test
 	public void criarUsuario() throws RepositoryException {
 		
@@ -59,19 +58,20 @@ public class FachadaTest{
 		usuario.setNome("Renan Oliveira");
 		usuario.setPapel("ROLE_ADMIN");
 		usuario.setSenha("123213");
-		usuario.setStatus(true);
-		
-		//criando o usuário no banco
-		fachada.criarUsuario(usuario);
-		
+		usuario.setStatus(true);		
+		//criando o usuário no banco de dados
+		fachada.criarUsuario(usuario);		
 		//buscando o usuário criado no banco
 		Usuario usuarioFind = fachada.buscarUsuarioPorNome("Renan Oliveira");
-		//verificando se o usuario foi criado		
+		// o mesmo metodo que foi feito acima, foi feito aqui.. 
+		// verificamos se o usuario foi criado com a comparação do nome
+		// USUARIO RETORNADO DO BANCO DE DADOS E COMPARADO COM O USUARIO CRIADO ACIMA
 		Assert.assertEquals(usuarioFind.getNome(), usuario.getNome());
-	
+		
 
 	}
 
+	/**CORRIGIDO*/
 	@Test
 	public void criarCliente() throws RepositoryException {
 		
@@ -101,11 +101,10 @@ public class FachadaTest{
 		Cliente clienteFind = fachada.buscarClientePorNome("PROF Rodrigo Vilar");
 		//verificando se o cliente foi criado
 		Assert.assertEquals(clienteFind.getNome(), cliente.getNome());
-		//verficando se os 3 projetos foram adicionados
-		Assert.assertEquals(clienteFind.getProjetos().size(), 3);
 
 	}
-
+	
+	/**CORRIGIDO*/
 	@Test
 	public void criarAtividade() throws RepositoryException {
 		//inserindo os dados da atividade
@@ -137,22 +136,18 @@ public class FachadaTest{
 		Assert.assertEquals(atividadeFind.getNome(), atividade.getNome());
 	}
 
-	@Test(expected=LogicException.class)
+	@Test
 	public void criarProjetoSemCliente() throws RepositoryException {
 
 		//inserindo dados do projeto
-		projeto = new Projeto();
-		
-		projeto.setNome("APS PROJETO");
-		
-		projeto.setClientes(null);
-		
+		projeto = new Projeto();		
+		projeto.setNome("PROJETO BANCARIO");		
+		projeto.setClientes(null); // projeto sem cliente		
 		//criando o projeto
-		fachada.criarProjeto(projeto);
+		fachada.criarProjeto(projeto);		
+		Projeto projetoFind = fachada.buscaProjetoPorNome("PROJETO BANCARIO");
+		Assert.assertEquals(projetoFind.getNome(), projeto.getNome());
 		
-		//Verifica se não foi criado 
-		Assert.assertNull(fachada.buscarClientePorNome("APS PROJETO"));
-
 	}
 
 	@Test
@@ -205,10 +200,13 @@ public class FachadaTest{
 		
 	}
 
-	
+	/**
+	 * CORRIGIDO
+	 * */
 	@Test
 	public void criarUsuarioSemAtividade() throws RepositoryException {
 		
+		//nesse caso podemos criar um usuario sem a atividade
 		usuario = new Usuario();
 		usuario.setCargo("ASPIRA");
 		usuario.setEmail("renan@gmail.com");
@@ -217,20 +215,23 @@ public class FachadaTest{
 		usuario.setPapel("ROLE_ADMIN");
 		usuario.setSenha("123213");
 		usuario.setStatus(true);		
-		usuario.setAtividades(null);
+		usuario.setAtividades(null);//ATIVIDADE NULA
 		fachada.criarUsuario(usuario);
-		
-		Assert.assertNotNull(fachada.buscarUsuarioPorNome("Renan 1"));
+		//VERIFICANDO SE A ATIVIDADE E NULA
+		Assert.assertNull(fachada.buscarUsuarioPorNome("Renan 1").getAtividades());
 		
 	}
-
+	
+	/**
+	 * CORRIGIGO
+	 * */
 	@Test
 	public void criarClienteSemProjeto() throws RepositoryException {
 		cliente = new Cliente();
 		cliente.setNome("PROF Rodrigo Vilar Teste");
 		cliente.setProjetos(null);
 		fachada.criarCliente(cliente);
-		Assert.assertNull(fachada.buscarClientePorNome("PROF Rodrigo Vilar Teste"));
+		Assert.assertNull(fachada.buscarClientePorNome("PROF Rodrigo Vilar Teste").getProjetos());
 	}
 
 
@@ -391,7 +392,7 @@ public class FachadaTest{
 		//criando o projeto
 		fachada.criarProjeto(projeto);
 		
-		Assert.assertNotNull(fachada.buscarTodosProjetos());
+		Assert.assertEquals(fachada.buscarTodosProjetos().size(), 3);
 	}
 
 	@Test

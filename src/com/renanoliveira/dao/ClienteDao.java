@@ -23,7 +23,7 @@ public class ClienteDao extends GenericDAOImpl<Cliente> {
     }
     
     public Cliente findByName(String nome){
-    	return (Cliente) getEntityManager().createQuery("SELECT c FROM Cliente c WHERE nome = "+nome).getResultList().get(0);
+    	return (Cliente) getEntityManager().createQuery("SELECT c FROM Cliente c WHERE nome = '"+nome+"'").getResultList().get(0);
     }
 
 	@Override
