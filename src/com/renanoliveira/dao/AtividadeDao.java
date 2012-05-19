@@ -23,13 +23,12 @@ public class AtividadeDao extends GenericDAOImpl<Atividade> {
     }
     
     public Atividade findByName(String nome){
-    	return (Atividade) getEntityManager().createQuery("SELECT a FROM Atividade a WHERE nome = "+nome).getResultList().get(0);
+    	return (Atividade) getEntityManager().createQuery("SELECT a FROM Atividade a WHERE nome = '"+nome+"'").getSingleResult();
     }
 
 	@Override
 	public List<Atividade> findAll() {
-		// TODO Auto-generated method stub
-		return null;
+		return getEntityManager().createQuery("SELECT a FROM Atividade a").getResultList();
 	}
     
 }

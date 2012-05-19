@@ -27,7 +27,7 @@ public class ProjetoDao extends GenericDAOImpl<Projeto> {
     }
     
     public Projeto findByName(String nome){
-    	return (Projeto) getEntityManager().createQuery("SELECT p FROM Projeto p WHERE p.nome = '"+nome+"'").getResultList().get(0);
+    	return (Projeto) getEntityManager().createQuery("SELECT p FROM Projeto p WHERE p.nome = '"+nome+"'").getSingleResult();
     }
 
 	@Override
