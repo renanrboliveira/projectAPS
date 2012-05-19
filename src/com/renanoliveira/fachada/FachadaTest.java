@@ -44,8 +44,7 @@ public class FachadaTest{
 		Projeto projetoFind = fachada.buscaProjetoPorNome("APS PROJETO,33");		
 		//verificando se o projeto foi criado
 		Assert.assertEquals(projetoFind.getNome(), projeto.getNome());		
-		//Limpando o projeto criado do banco
-		fachada.removerProjeto(projetoFind);		
+	
 
 	}
 
@@ -68,9 +67,8 @@ public class FachadaTest{
 		//buscando o usuário criado no banco
 		Usuario usuarioFind = fachada.buscarUsuarioPorNome("Renan Oliveira");
 		//verificando se o usuario foi criado		
-		Assert.assertEquals(usuarioFind, usuario.getNome());
-		//removendo o usuario criado
-		fachada.removerUsuario(usuarioFind);		
+		Assert.assertEquals(usuarioFind.getNome(), usuario.getNome());
+	
 
 	}
 
@@ -105,8 +103,7 @@ public class FachadaTest{
 		Assert.assertEquals(clienteFind.getNome(), cliente.getNome());
 		//verficando se os 3 projetos foram adicionados
 		Assert.assertEquals(clienteFind.getProjetos().size(), 3);
-		//removendo o cliente criado
-		fachada.removerCliente(clienteFind);
+
 	}
 
 	@Test
@@ -138,8 +135,6 @@ public class FachadaTest{
 		Atividade atividadeFind = fachada.buscarAtividadePorNome("[MELHORIA] Boleto Bancário Test");
 		//verificando se a atividade foi criada
 		Assert.assertEquals(atividadeFind.getNome(), atividade.getNome());
-		//removendo atividade
-		fachada.removerAtividade(atividadeFind);
 	}
 
 	@Test(expected=LogicException.class)
@@ -278,13 +273,8 @@ public class FachadaTest{
 		fachada.criarUsuario(usuario);
 		//verificando se os usuários foram criados
 		Assert.assertNotNull(fachada.buscarTodosUsuarios());		
-		//removendo os usuários
-		Usuario usuarioFind1 = fachada.buscarUsuarioPorNome("ASPIRA 1");
-		fachada.removerUsuario(usuarioFind1);
-		Usuario usuarioFind2 = fachada.buscarUsuarioPorNome("ASPIRA 2");
-		fachada.removerUsuario(usuarioFind2);
-		Usuario usuarioFind3 = fachada.buscarUsuarioPorNome("ASPIRA 3");
-		fachada.removerUsuario(usuarioFind3);
+		
+		
 	}
 
 	@Test
@@ -304,13 +294,6 @@ public class FachadaTest{
 		fachada.criarCliente(cliente);
 		//verificando se os clientes foram criado
 		Assert.assertNotNull(fachada.buscarTodosClientes());
-		//limpando o banco
-		Cliente clienteFind = fachada.buscarClientePorNome("PROF Rodrigo Vilar Teste 1");
-		fachada.removerCliente(clienteFind);
-		Cliente clienteFind2 = fachada.buscarClientePorNome("PROF Rodrigo Vilar Teste 2");
-		fachada.removerCliente(clienteFind2);
-		Cliente clienteFind3 = fachada.buscarClientePorNome("PROF Rodrigo Vilar Teste 3");
-		fachada.removerCliente(clienteFind3);
 	}
 
 	@Test
@@ -390,14 +373,6 @@ public class FachadaTest{
 		fachada.criarAtividade(atividade);
 
 		Assert.assertNotNull(fachada.buscarTodasAtividades());
-		
-		//removendo as atividades criadas no banco
-		Atividade atividade1 = fachada.buscarAtividadePorNome("[MELHORIA] Boleto Bancário Test 1");
-		fachada.removerAtividade(atividade1);
-		Atividade atividade2 = fachada.buscarAtividadePorNome("[MELHORIA] Boleto Bancário Test 2");
-		fachada.removerAtividade(atividade2);
-		Atividade atividade3 = fachada.buscarAtividadePorNome("[MELHORIA] Boleto Bancário Test 2");
-		fachada.removerAtividade(atividade3);
 
 	}
 
@@ -417,15 +392,6 @@ public class FachadaTest{
 		fachada.criarProjeto(projeto);
 		
 		Assert.assertNotNull(fachada.buscarTodosProjetos());
-		
-		//removendo os projetos do banco
-		Projeto projetoFind1 = fachada.buscaProjetoPorNome("APS PROJETO 1");
-		fachada.removerProjeto(projetoFind1);
-		Projeto projetoFind2 = fachada.buscaProjetoPorNome("APS PROJETO 2");
-		fachada.removerProjeto(projetoFind2);
-		Projeto projetoFind3 = fachada.buscaProjetoPorNome("APS PROJETO 3");
-		fachada.removerProjeto(projetoFind3);
-
 	}
 
 	@Test
@@ -443,8 +409,6 @@ public class FachadaTest{
 		Cliente clienteAlterado = fachada.buscarClientePorNome("Joao");
 		//verificando se o cliente foi alterado 
 		Assert.assertEquals(clienteAlterado.getNome(),"Joao");
-		//removendo o cliente do bd
-		fachada.removerCliente(clienteAlterado);
 	}
 
 	@Test
