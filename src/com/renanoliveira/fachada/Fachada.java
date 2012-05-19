@@ -5,6 +5,7 @@ import java.util.List;
 import com.renanoliveira.dao.AtividadeDao;
 import com.renanoliveira.dao.ClienteDao;
 import com.renanoliveira.dao.ProjetoDao;
+import com.renanoliveira.dao.RepositoryException;
 import com.renanoliveira.dao.UsuarioDao;
 import com.renanoliveira.entity.Atividade;
 import com.renanoliveira.entity.Cliente;
@@ -31,7 +32,7 @@ public class Fachada {
     
     }
 
-    public void criarProjeto(Projeto projeto) {
+    public void criarProjeto(Projeto projeto) throws RepositoryException {
         projetoDao.save(projeto);
     }
 
@@ -48,10 +49,10 @@ public class Fachada {
     }
 
     public Projeto buscarProjetoPorID(int idProjeto) {
-        return projetoDao.find(idProjeto);
+        return projetoDao.findId(idProjeto);
     }
 
-    public void criarCliente(Cliente cliente) {
+    public void criarCliente(Cliente cliente) throws RepositoryException {
         clienteDao.save(cliente);
     }
 
@@ -68,10 +69,10 @@ public class Fachada {
     }
 
     public Cliente buscarClientePorId(int idCliente) {
-        return clienteDao.find(idCliente);
+        return clienteDao.findId(idCliente);
     }
 
-    public void criarAtividade(Atividade atividade) {
+    public void criarAtividade(Atividade atividade) throws RepositoryException {
         atividadeDao.save(atividade);
     }
 
@@ -88,10 +89,10 @@ public class Fachada {
     }
 
     public Atividade buscarAtividadePorId(int idArividade) {
-        return atividadeDao.find(idArividade);
+        return atividadeDao.findId(idArividade);
     }
 
-    public void criarUsuario(Usuario usuario) {
+    public void criarUsuario(Usuario usuario) throws RepositoryException {
         usuarioDao.save(usuario);
     }
 
@@ -108,7 +109,7 @@ public class Fachada {
     }
 
     public Usuario buscarUsuarioPorId(int idUsuario) {
-        return usuarioDao.find(idUsuario);
+        return usuarioDao.findId(idUsuario);
     }
 
 	public Usuario buscarUsuarioPorNome(String nome) {

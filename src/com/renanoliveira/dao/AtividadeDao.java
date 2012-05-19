@@ -8,7 +8,7 @@ import com.renanoliveira.entity.Atividade;
  *
  * @author renanaoliveira
  */
-public class AtividadeDao extends GenericDAO<Atividade> {
+public class AtividadeDao extends GenericDAOImpl<Atividade> {
     
     public AtividadeDao(){
     
@@ -25,5 +25,11 @@ public class AtividadeDao extends GenericDAO<Atividade> {
     public Atividade findByName(String nome){
     	return (Atividade) getEntityManager().createQuery("SELECT a FROM Atividade a WHERE nome = "+nome).getResultList().get(0);
     }
+
+	@Override
+	public List<Atividade> findAll() {
+		// TODO Auto-generated method stub
+		return null;
+	}
     
 }

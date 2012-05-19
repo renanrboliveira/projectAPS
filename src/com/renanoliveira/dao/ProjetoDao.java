@@ -9,7 +9,7 @@ import com.renanoliveira.entity.Projeto;
  *
  * @author Renan Oliveira
  */
-public class ProjetoDao extends GenericDAO<Projeto> {
+public class ProjetoDao extends GenericDAOImpl<Projeto> {
     
     
 
@@ -29,6 +29,12 @@ public class ProjetoDao extends GenericDAO<Projeto> {
     public Projeto findByName(String nome){
     	return (Projeto) getEntityManager().createQuery("SELECT p FROM Projeto p WHERE p.nome = '"+nome+"'").getResultList().get(0);
     }
+
+	@Override
+	public List<Projeto> findAll() {
+		// TODO Auto-generated method stub
+		return null;
+	}
     
     
 }

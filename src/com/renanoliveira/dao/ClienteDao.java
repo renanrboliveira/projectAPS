@@ -8,7 +8,7 @@ import com.renanoliveira.entity.Cliente;
  *
  * @author renanaoliveira
  */
-public class ClienteDao extends GenericDAO<Cliente> {    
+public class ClienteDao extends GenericDAOImpl<Cliente> {    
     
     public ClienteDao(){
     
@@ -25,6 +25,12 @@ public class ClienteDao extends GenericDAO<Cliente> {
     public Cliente findByName(String nome){
     	return (Cliente) getEntityManager().createQuery("SELECT c FROM Cliente c WHERE nome = "+nome).getResultList().get(0);
     }
+
+	@Override
+	public List<Cliente> findAll() {
+		// TODO Auto-generated method stub
+		return null;
+	}
     
     
     

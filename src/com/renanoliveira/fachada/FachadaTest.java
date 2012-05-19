@@ -9,6 +9,7 @@ import junit.framework.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
+import com.renanoliveira.dao.RepositoryException;
 import com.renanoliveira.entity.Atividade;
 import com.renanoliveira.entity.Cliente;
 import com.renanoliveira.entity.Projeto;
@@ -32,7 +33,7 @@ public class FachadaTest{
 	
 
 	@Test
-	public void criarProjeto() {
+	public void criarProjeto() throws RepositoryException {
 		
 		//setando os dados do projeto
 		projeto = new Projeto();
@@ -49,7 +50,7 @@ public class FachadaTest{
 	}
 
 	@Test
-	public void criarUsuario() {
+	public void criarUsuario() throws RepositoryException {
 		
 		//inserindo os dados do usuário
 		usuario = new Usuario();

@@ -8,7 +8,7 @@ import java.util.List;
  *
  * @author renanaoliveira
  */
-public class UsuarioDao extends GenericDAO<Usuario> {
+public class UsuarioDao extends GenericDAOImpl<Usuario> {
 
     public UsuarioDao() {
 
@@ -28,4 +28,10 @@ public class UsuarioDao extends GenericDAO<Usuario> {
     public Usuario findByName(String nome){
     	return (Usuario) getEntityManager().createQuery("SELECT u FROM Usuario u WHERE u.nome = ?1 ", Usuario.class).setParameter(1, nome).getResultList().get(0);
     }
+
+	@Override
+	public List<Usuario> findAll() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }
