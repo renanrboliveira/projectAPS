@@ -77,28 +77,27 @@ public class FachadaTest{
 	@Test
 	public void criarCliente() throws RepositoryException {
 		
-		//lista de projetos
-		List<Projeto> projetos = new ArrayList<Projeto>();
-		
+				
 		//inserindo os dados do cliento
 		cliente = new Cliente();
 		cliente.setNome("PROF Rodrigo Vilar");
+		fachada.criarCliente(cliente);
 		
 		//um cliente tem uma lista de projetos
 		projeto = new Projeto();
 		projeto.setNome("Projeto 1");
-		projetos.add(projeto);
+		
 		projeto = new Projeto();
 		projeto.setNome("Projeto 2");
-		projetos.add(projeto);
+		
 		projeto = new Projeto();
 		projeto.setNome("Projeto 3");
-		projetos.add(projeto);
 		
-		//inserindo os projetos no cliente
-		cliente.setProjetos(projetos);
+		
+		
+	
 		//criando um cliente
-		fachada.criarCliente(cliente);
+	
 		//buscando o cliente criado
 		Cliente clienteFind = fachada.buscarClientePorNome("PROF Rodrigo Vilar");
 		//verificando se o cliente foi criado
@@ -128,9 +127,16 @@ public class FachadaTest{
 		usuario.setPapel("ROLE_ADMIN");
 		usuario.setSenha("123213");
 		usuario.setStatus(true);
-		//inserindo o usuario
-		atividade.setUsuario(usuario);
+		fachada.criarUsuario(usuario);//criando um usuario na base de dados		
+		atividade.setUsuario(fachada.buscarUsuarioPorNome(usuario.getNome()));
 		//criando a atividade
+		
+
+		projeto = new Projeto();		
+		projeto.setNome("PROJETO BANCARIO");		
+		fachada.criarProjeto(projeto);//criando um projeto na base de dados
+		atividade.setProjeto(fachada.buscaProjetoPorNome(projeto.getNome()));
+		
 		fachada.criarAtividade(atividade);
 		//buscando a atividade no banco
 		Atividade atividadeFind = fachada.buscarAtividadePorNome("[MELHORIA] Boleto Bancário Test");
