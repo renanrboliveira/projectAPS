@@ -75,7 +75,7 @@ public class FachadaTest{
 	}
 
 	@Test
-	public void criarCliente() {
+	public void criarCliente() throws RepositoryException {
 		
 		//lista de projetos
 		List<Projeto> projetos = new ArrayList<Projeto>();
@@ -110,7 +110,7 @@ public class FachadaTest{
 	}
 
 	@Test
-	public void criarAtividade() {
+	public void criarAtividade() throws RepositoryException {
 		//inserindo os dados da atividade
 		atividade = new Atividade();
 		atividade.setNome("[MELHORIA] Boleto Bancário Test");
@@ -143,7 +143,7 @@ public class FachadaTest{
 	}
 
 	@Test(expected=LogicException.class)
-	public void criarProjetoSemCliente() {
+	public void criarProjetoSemCliente() throws RepositoryException {
 
 		//inserindo dados do projeto
 		projeto = new Projeto();
@@ -161,7 +161,7 @@ public class FachadaTest{
 	}
 
 	@Test
-	public void criarProjetoSemAtividade() {
+	public void criarProjetoSemAtividade() throws RepositoryException {
 		
 		String stringTest = "APS PROJETO Sem Atividade";
 		
@@ -175,7 +175,7 @@ public class FachadaTest{
 	}
 
 	@Test(expected=Exception.class)
-	public void criarAtividadeSemProjeto() {
+	public void criarAtividadeSemProjeto() throws RepositoryException {
 
 		atividade.setNome("[Troca] Boleto de troca");
 		atividade.setDataInicio(new Date());
@@ -212,7 +212,7 @@ public class FachadaTest{
 
 	
 	@Test
-	public void criarUsuarioSemAtividade() {
+	public void criarUsuarioSemAtividade() throws RepositoryException {
 		
 		usuario = new Usuario();
 		usuario.setCargo("ASPIRA");
@@ -230,7 +230,7 @@ public class FachadaTest{
 	}
 
 	@Test
-	public void criarClienteSemProjeto() {
+	public void criarClienteSemProjeto() throws RepositoryException {
 		cliente = new Cliente();
 		cliente.setNome("PROF Rodrigo Vilar Teste");
 		cliente.setProjetos(null);
@@ -241,7 +241,7 @@ public class FachadaTest{
 
 
 	@Test
-	public void listarTodosUsuariosTest() {
+	public void listarTodosUsuariosTest() throws RepositoryException {
 		//criando usuarios
 		usuario = new Usuario();
 		usuario.setCargo("ASPIRA 1");
@@ -288,7 +288,7 @@ public class FachadaTest{
 	}
 
 	@Test
-	public void listarTodosClientesTest() {
+	public void listarTodosClientesTest() throws RepositoryException {
 		//criando clientes e inserindo no bd
 		cliente = new Cliente();
 		cliente.setNome("PROF Rodrigo Vilar Teste 1");
@@ -314,7 +314,7 @@ public class FachadaTest{
 	}
 
 	@Test
-	public void listarTodasAtividadesTest() {
+	public void listarTodasAtividadesTest() throws RepositoryException {
 		
 		//CRIANDO A 1 ATIVIDADE
 		// inserindo os dados da atividade
@@ -402,7 +402,7 @@ public class FachadaTest{
 	}
 
 	@Test
-	public void listarTodosProjetosTest() {
+	public void listarTodosProjetosTest() throws RepositoryException {
 		projeto = new Projeto();
 		projeto.setNome("APS PROJETO 1");		
 		//criando o projeto
@@ -429,7 +429,7 @@ public class FachadaTest{
 	}
 
 	@Test
-	public void alterarClienteTest() {
+	public void alterarClienteTest() throws RepositoryException {
 		//criando um novo cliente
 		Cliente clienteNovo = new Cliente();
 		clienteNovo.setNome("Joaozinho");
