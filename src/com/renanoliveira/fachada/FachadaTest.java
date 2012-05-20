@@ -1,8 +1,6 @@
 package com.renanoliveira.fachada;
 
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 
 import javax.persistence.NoResultException;
 
@@ -44,7 +42,7 @@ public class FachadaTest{
 		Projeto projetoFind = fachada.buscaProjetoPorNome("APS PROJETO");
 		// verifica se o projeto foi criado, com a comparação de nome,
         // pois nao temos de busca, comparando pelo ID, pois o banco gera seu proprio id
-		Assert.assertEquals(projetoFind.getNome(), projeto.getNome()); 
+		Assert.assertEquals(projetoFind, projeto); 
 
 	}
 
@@ -68,7 +66,7 @@ public class FachadaTest{
 		// o mesmo metodo que foi feito acima, foi feito aqui.. 
 		// verificamos se o usuario foi criado com a comparação do nome
 		// USUARIO RETORNADO DO BANCO DE DADOS E COMPARADO COM O USUARIO CRIADO ACIMA
-		Assert.assertEquals(usuarioFind.getNome(), usuario.getNome());
+		Assert.assertEquals(usuarioFind, usuario);
 		
 
 	}
@@ -101,7 +99,7 @@ public class FachadaTest{
 		fachada.criarProjeto(projeto);	
 	
 		//verificando se o cliente foi criado
-		Assert.assertEquals(clienteFind.getNome(), cliente.getNome());
+		Assert.assertEquals(clienteFind, cliente);
 
 	}
 	
@@ -127,7 +125,8 @@ public class FachadaTest{
 		usuario.setPapel("ROLE_ADMIN");
 		usuario.setSenha("123213");
 		usuario.setStatus(true);
-		fachada.criarUsuario(usuario);//criando um usuario na base de dados		
+		fachada.criarUsuario(usuario);//criando um usuario na base de dados	
+		
 		atividade.setUsuario(fachada.buscarUsuarioPorNome(usuario.getNome()));
 		//criando a atividade
 		
@@ -141,7 +140,7 @@ public class FachadaTest{
 		//buscando a atividade no banco
 		Atividade atividadeFind = fachada.buscarAtividadePorNome("[MELHORIA] Boleto Bancário Test");
 		//verificando se a atividade foi criada
-		Assert.assertEquals(atividadeFind.getNome(), atividade.getNome());
+		Assert.assertEquals(atividadeFind, atividade);
 	}
 
 	/**CORRIGIDO*/
