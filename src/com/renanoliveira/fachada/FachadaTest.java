@@ -62,7 +62,7 @@ public class FachadaTest{
 		//criando o usuário no banco de dados
 		fachada.criarUsuario(usuario);		
 		//buscando o usuário criado no banco
-		Usuario usuarioFind = fachada.buscarUsuarioPorNome("Renan Oliveira");
+		Usuario usuarioFind = fachada.buscarUsuarioPorId(1);
 		// o mesmo metodo que foi feito acima, foi feito aqui.. 
 		// verificamos se o usuario foi criado com a comparação do nome
 		// USUARIO RETORNADO DO BANCO DE DADOS E COMPARADO COM O USUARIO CRIADO ACIMA
@@ -81,7 +81,7 @@ public class FachadaTest{
 		cliente.setNome("PROF Rodrigo Vilar");
 		fachada.criarCliente(cliente);
 		
-		Cliente clienteFind = fachada.buscarClientePorNome(cliente.getNome());
+		Cliente clienteFind = fachada.buscarClientePorId(1);
 		
 		projeto = new Projeto();
 		projeto.setNome("Projeto 1");
