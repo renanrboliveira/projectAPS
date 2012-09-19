@@ -15,6 +15,11 @@ public class HibernateUtil {
     private HibernateUtil() {
         emf = Persistence.createEntityManagerFactory("projectTaskKamaleonPU");
     }
+    
+     public static void resetEntityManager(){
+        util = null;
+    	
+    }
 
     public static HibernateUtil getInstance() {
         if (util == null) {
