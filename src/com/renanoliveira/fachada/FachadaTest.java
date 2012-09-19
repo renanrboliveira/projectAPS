@@ -14,6 +14,7 @@ import com.renanoliveira.entity.Atividade;
 import com.renanoliveira.entity.Cliente;
 import com.renanoliveira.entity.Projeto;
 import com.renanoliveira.entity.Usuario;
+import com.renanoliveira.util.HibernateUtil;
 
 public class FachadaTest{
 
@@ -81,7 +82,7 @@ public class FachadaTest{
 		cliente.setNome("PROF Rodrigo Vilar");
 		fachada.criarCliente(cliente);
 		
-		Cliente clienteFind = fachada.buscarClientePorId(1);
+		Cliente clienteFind = fachada.buscarClientePorId(cliente.getId());
 		
 		projeto = new Projeto();
 		projeto.setNome("Projeto 1");
@@ -127,18 +128,18 @@ public class FachadaTest{
 		usuario.setStatus(true);
 		fachada.criarUsuario(usuario);//criando um usuario na base de dados	
 		
-		atividade.setUsuario(fachada.buscarUsuarioPorNome(usuario.getNome()));
+		atividade.setUsuario(fachada.buscarUsuarioPorId(usuario.getId()));
 		//criando a atividade
 		
 
 		projeto = new Projeto();		
 		projeto.setNome("PROJETO BANCARIO");		
 		fachada.criarProjeto(projeto);//criando um projeto na base de dados
-		atividade.setProjeto(fachada.buscaProjetoPorNome(projeto.getNome()));
+		atividade.setProjeto(fachada.buscarProjetoPorID(projeto.getId()));
 		
 		fachada.criarAtividade(atividade);
 		//buscando a atividade no banco
-		Atividade atividadeFind = fachada.buscarAtividadePorNome("[MELHORIA] Boleto Bancário Test");
+		Atividade atividadeFind = fachada.buscarAtividadePorId(atividade.getId());
 		//verificando se a atividade foi criada
 		Assert.assertEquals(atividadeFind, atividade);
 	}
@@ -152,7 +153,7 @@ public class FachadaTest{
 		projeto.setNome("PROJETO BANCARIO");				
 		//criando o projeto
 		fachada.criarProjeto(projeto);		
-		Projeto projetoFind = fachada.buscaProjetoPorNome("PROJETO BANCARIO");
+		Projeto projetoFind = fachada.buscarProjetoPorID(projeto.getId());
 		Assert.assertNull(projetoFind.getCliente());
 		
 	}
@@ -166,7 +167,7 @@ public class FachadaTest{
 		projeto.setNome(stringTest);
 		projeto.setAtividades(null);//projeto sem atividade	
 		fachada.criarProjeto(projeto);		
-		Assert.assertNull(fachada.buscaProjetoPorNome(stringTest).getAtividades());//verificando se é null as atividades
+		Assert.assertNull(fachada.buscarProjetoPorID(projeto.getId()).getAtividades());//verificando se é null as atividades
 
 	}
 	
@@ -186,7 +187,7 @@ public class FachadaTest{
 		atividade.setUsuario(usuario);
 		fachada.criarAtividade(atividade);
 		
-		Assert.assertNull(fachada.buscarAtividadePorNome(atividade.getNome()).getProjeto());
+		Assert.assertNull(fachada.buscarAtividadePorId(atividade.getId()).getProjeto());
 		
 	}
 
@@ -203,7 +204,7 @@ public class FachadaTest{
 		atividade.setStatus("FECHADA");
 		atividade.setPrioridade("IMPORTANTE");
 		fachada.criarAtividade(atividade);
-		Assert.assertNull(fachada.buscarAtividadePorNome(atividade.getNome()).getUsuario());
+		Assert.assertNull(fachada.buscarAtividadePorId(atividade.getId()).getUsuario());
 		
 		
 	}
@@ -225,7 +226,7 @@ public class FachadaTest{
 		usuario.setStatus(true);		
 		fachada.criarUsuario(usuario);
 		//VERIFICANDO SE A ATIVIDADE E NULA
-		Assert.assertNull(fachada.buscarUsuarioPorNome("Renan 1").getAtividades());
+		Assert.assertNull(fachada.buscarUsuarioPorId(usuario.getId()).getAtividades());
 		
 	}
 	
@@ -238,13 +239,17 @@ public class FachadaTest{
 		cliente.setNome("PROF Rodrigo Vilar Teste");
 		cliente.setProjetos(null);//CLIENTE SEM PROJETO
 		fachada.criarCliente(cliente);
-		Assert.assertNull(fachada.buscarClientePorNome("PROF Rodrigo Vilar Teste").getProjetos());
+		Assert.assertNull(fachada.buscarClientePorId(cliente.getId()).getProjetos());
+
+		HibernateUtil.resetEntityManager();
+
 	}
 
 
 	/**CORRIGIDO*/
 	@Test
 	public void listarTodosUsuariosTest() throws RepositoryException {
+
 		//criando usuarios
 		usuario = new Usuario();
 		usuario.setCargo("ASPIRA 1");
@@ -284,11 +289,14 @@ public class FachadaTest{
 		//verificando se os usuários foram criados
 		Assert.assertEquals(fachada.buscarTodosUsuarios().size(), 3);		
 		
-		
+
 	}
 	/**CORRIGIDO*/
 	@Test
 	public void listarTodosClientesTest() throws RepositoryException {
+		
+
+		
 		//criando clientes e inserindo no bd
 		cliente = new Cliente();
 		cliente.setNome("PROF Rodrigo Vilar Teste 1");
@@ -379,12 +387,12 @@ public class FachadaTest{
 		clienteNovo.setNome("Joaozinho");
 		fachada.criarCliente(clienteNovo);
 		//buscando o cliente criado
-		Cliente clienteParaAlterar = fachada.buscarClientePorNome("Joaozinho");
+		Cliente clienteParaAlterar = fachada.buscarClientePorId(clienteNovo.getId());
 		clienteParaAlterar.setNome("Joao");		
 		//alterando o cliente
 		fachada.alterarCliente(clienteParaAlterar);
 		//buscar  o cliente alterado
-		Cliente clienteAlterado = fachada.buscarClientePorNome("Joao");
+		Cliente clienteAlterado = fachada.buscarClientePorId(clienteParaAlterar.getId());
 		//verificando se o cliente foi alterado 
 		Assert.assertEquals(clienteAlterado.getNome(),"Joao");
 		
@@ -398,7 +406,7 @@ public class FachadaTest{
 		atividadeNova.setNome("Atividade outra coisa");
 		atividadeNova.setPrioridade("IMPORTANTE");
 		fachada.criarAtividade(atividadeNova);//persistindo
-		Atividade atividadeParaAlterar = fachada.buscarAtividadePorNome(atividadeNova.getNome());
+		Atividade atividadeParaAlterar = fachada.buscarAtividadePorId(atividadeNova.getId());
 		atividadeParaAlterar.setPrioridade("URGENTE");
 		fachada.alterarAtividade(atividadeParaAlterar);//ALTERANDO A ATIVIDADE		
 		Assert.assertEquals(fachada.buscarAtividadePorNome(atividadeNova.getNome()).getPrioridade(), "URGENTE");
@@ -415,7 +423,7 @@ public class FachadaTest{
 		projetoNovo.setNome("PROJETO TESTE");
 		fachada.criarProjeto(projetoNovo);
 		
-		Projeto projetoAlterado = fachada.buscaProjetoPorNome(projetoNovo.getNome());		
+		Projeto projetoAlterado = fachada.buscarProjetoPorID(projetoNovo.getId());		
 		projetoAlterado.setNome("PROJETO TESTE ALTERADO");
 		fachada.alterarProjeto(projetoAlterado);
 	
@@ -436,7 +444,7 @@ public class FachadaTest{
 		usuarioNovo.setPapel("ROLE_ADMIN");
 		usuarioNovo.setStatus(true);
 		fachada.criarUsuario(usuarioNovo);//persisti
-		Usuario usuarioParaAlterar = fachada.buscarUsuarioPorNome(usuarioNovo.getNome());
+		Usuario usuarioParaAlterar = fachada.buscarUsuarioPorId(usuarioNovo.getId());
 		usuarioParaAlterar.setPapel("ROLE_USER");
 		fachada.alterarUsuario(usuarioParaAlterar);//altera
 		
@@ -444,7 +452,7 @@ public class FachadaTest{
 	}
 		
 	/**CORRIGIDO*/
-	@Test(expected=NoResultException.class)
+	@Test
 	public void removerUsuarioTest() throws RepositoryException {
 		
 		Usuario usuarioNovo = new Usuario();
@@ -455,41 +463,41 @@ public class FachadaTest{
 		usuarioNovo.setPapel("ROLE_ADMIN");
 		usuarioNovo.setStatus(true);
 		fachada.criarUsuario(usuarioNovo);//CRIANDO UM USUARIO		
-		Usuario usuario = fachada.buscarUsuarioPorNome(usuarioNovo.getNome());		
+		Usuario usuario = fachada.buscarUsuarioPorId(usuarioNovo.getId());		
 		fachada.removerUsuario(usuario);//removendo o usuario				
-		fachada.buscarUsuarioPorNome(usuarioNovo.getNome());//aguardando a exceção no result exception
+		Assert.assertNull(fachada.buscarUsuarioPorId(usuario.getId()));//aguardando a exceção no result exception
 		
 	}
 	/**CORRIGIDO
 	 * @throws RepositoryException */
-	@Test(expected=NoResultException.class)
+	@Test
 	public void removerProjetoTest() throws RepositoryException {
 		Projeto projeto = new Projeto();
 		projeto.setNome("PROJETO TESTE REMOVER");
 		fachada.criarProjeto(projeto);
-		Projeto projetoRemoved = fachada.buscaProjetoPorNome(projeto.getNome());		
+		Projeto projetoRemoved = fachada.buscarProjetoPorID(projeto.getId());		
 		fachada.removerProjeto(projetoRemoved);//removendo projeto				
-		fachada.buscaProjetoPorNome(projeto.getNome());//aguadando exceção no result exception
+		Assert.assertNull(fachada.buscarProjetoPorID(projeto.getId()));//aguadando exceção no result exception
 		
 	}
 
 
 	/**CORRIGIDO
 	 * @throws RepositoryException */
-	@Test(expected=NoResultException.class)
+	@Test
 	public void removerClienteTest() throws RepositoryException {		
 		cliente = new Cliente();
 		cliente.setNome("Renna Oliveira");
 		fachada.criarCliente(cliente);//criando cliente
-		Cliente clienteRemoved = fachada.buscarClientePorNome(cliente.getNome());
+		Cliente clienteRemoved = fachada.buscarClientePorId(cliente.getId());
 		fachada.removerCliente(clienteRemoved);//removendo cliente
-		fachada.buscarClientePorNome(cliente.getNome());//aguardando exceção
+		Assert.assertNull(fachada.buscarClientePorId(cliente.getId()));//aguardando exceção
 	}
 
 
 	/**CORRIGIDO
 	 * @throws RepositoryException */
-	@Test(expected=NoResultException.class)
+	@Test
 	public void removerAtividadeTest() throws RepositoryException {
 		
 		atividade = new Atividade();
@@ -502,9 +510,9 @@ public class FachadaTest{
 		atividade.setPrioridade("IMPORTANTE");
 		// criando a atividade
 		fachada.criarAtividade(atividade);//criando a tividade		
-		Atividade atividadeRemoved = fachada.buscarAtividadePorNome(atividade.getNome());		
+		Atividade atividadeRemoved = fachada.buscarAtividadePorId(atividade.getId());		
 		fachada.removerAtividade(atividadeRemoved);//removendo a atividade criada
-		fachada.buscarAtividadePorNome(atividade.getNome());//aguardando a exceção
+		Assert.assertNull(fachada.buscarAtividadePorId(atividade.getId()));//aguardando a exceção
 	}
 	
 
@@ -517,7 +525,7 @@ public class FachadaTest{
 		usuario = new Usuario();
 		usuario.setNome("Renan 1");
 		fachada.criarUsuario(usuario);//criando usuario
-		Assert.assertEquals(fachada.buscarUsuarioPorNome(usuario.getNome()).getNome(), usuario.getNome());
+		Assert.assertEquals(fachada.buscarUsuarioPorId(usuario.getId()).getNome(), usuario.getNome());
 
 	}
 
@@ -529,7 +537,7 @@ public class FachadaTest{
 		Projeto projeto = new Projeto();
 		projeto.setNome("APS PROJETO TESTE NOME");
 		fachada.criarProjeto(projeto);//criando projeto
-		Assert.assertEquals(fachada.buscaProjetoPorNome(projeto.getNome()).getNome(), projeto.getNome() );
+		Assert.assertEquals(fachada.buscarProjetoPorID(projeto.getId()).getNome(), projeto.getNome() );
 		
 	}
 
@@ -541,7 +549,7 @@ public class FachadaTest{
 		cliente = new Cliente();
 		cliente.setNome("Vandhuy");
 		fachada.criarCliente(cliente);
-		Assert.assertEquals(fachada.buscarClientePorNome(cliente.getNome()).getNome(), cliente.getNome());
+		Assert.assertEquals(fachada.buscarClientePorId(cliente.getId()).getNome(), cliente.getNome());
 	}
 
 
@@ -552,7 +560,7 @@ public class FachadaTest{
 		atividade = new Atividade();
 		atividade.setNome("Erick");
 		fachada.criarAtividade(atividade);
-		Assert.assertEquals(fachada.buscarAtividadePorNome(atividade.getNome()).getNome(), atividade.getNome());
+		Assert.assertEquals(fachada.buscarAtividadePorId(atividade.getId()).getNome(), atividade.getNome());
 	}
 	
 
@@ -564,7 +572,7 @@ public class FachadaTest{
 		usuario.setNome("Jose");
 		fachada.criarUsuario(usuario);
 			
-		Assert.assertEquals(fachada.buscarUsuarioPorId(1).getNome(),usuario.getNome());
+		Assert.assertEquals(fachada.buscarUsuarioPorId(usuario.getId()).getNome(),usuario.getNome());
 	}
 
 
@@ -575,7 +583,7 @@ public class FachadaTest{
 		projeto = new Projeto();
 		projeto.setNome("Renan Project");
 		fachada.criarProjeto(projeto);
-		Assert.assertEquals(fachada.buscarProjetoPorID(1).getNome(), projeto.getNome());
+		Assert.assertEquals(fachada.buscarProjetoPorID(projeto.getId()).getNome(), projeto.getNome());
 	}
 
 
@@ -586,7 +594,7 @@ public class FachadaTest{
 		cliente = new Cliente();
 		cliente.setNome("Erick Guy");
 		fachada.criarCliente(cliente);
-		Assert.assertEquals(fachada.buscarClientePorId(1).getNome(), cliente.getNome());
+		Assert.assertEquals(fachada.buscarClientePorId(cliente.getId()).getNome(), cliente.getNome());
 	}
 
 
@@ -597,7 +605,7 @@ public class FachadaTest{
 		atividade = new Atividade();
 		atividade.setNome("Criar um fachada");
 		fachada.criarAtividade(atividade);
-		Assert.assertEquals(fachada.buscarAtividadePorId(1).getNome(), atividade.getNome());
+		Assert.assertEquals(fachada.buscarAtividadePorId(atividade.getId()).getNome(), atividade.getNome());
 	}
 	
 }
