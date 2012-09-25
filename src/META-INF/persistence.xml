@@ -3,25 +3,14 @@
   <persistence-unit name="projectTaskKamaleonPU" transaction-type="RESOURCE_LOCAL">
     <provider>org.hibernate.ejb.HibernatePersistence</provider>
     <!--jta-data-source>mercadolivre</jta-data-source-->
-    <non-jta-data-source/>
-      <class>com.renanoliveira.entity.Usuario</class>
-            <class>com.renanoliveira.entity.Usuario</class>
-      
-            <class>com.renanoliveira.entity.Projeto</class>
-      
-            <class>com.renanoliveira.entity.Cliente</class>
-      
-            <class>com.renanoliveira.entity.Atividade</class>
-      
-      
-    <exclude-unlisted-classes>true</exclude-unlisted-classes>
+   
     <properties>
       <property name="hibernate.dialect" value="org.hibernate.dialect.PostgreSQLDialect"/>
       <property name="hibernate.hbm2ddl.auto" value="create-drop"/>
       <property name="hibernate.connection.driver_class" value="org.postgresql.Driver"/>
-      <property name="hibernate.connection.username" value="desenv"/>
+      <property name="hibernate.connection.username" value="admin"/>
       <property name="hibernate.connection.password" value="@@desenv@@"/>
-      <property name="hibernate.connection.url" value="jdbc:postgresql://127.0.0.1:5432/seproject"/>
+      <property name="hibernate.connection.url" value="jdbc:postgresql://127.0.0.1:5432/seproject2"/>
     </properties>
   </persistence-unit>
 </persistence>

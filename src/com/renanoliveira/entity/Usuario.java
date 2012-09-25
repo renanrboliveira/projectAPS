@@ -12,6 +12,7 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
 /**
@@ -36,8 +37,11 @@ public class Usuario implements Serializable {
     private String papel;
     
     private boolean status;
+    @ManyToOne
+    private Setor setor;
+    @ManyToOne
+    private Cargo cargo;
     
-    private String cargo;
     
     @OneToMany(mappedBy="usuario",targetEntity=Atividade.class,fetch=FetchType.LAZY)
     private List<Atividade> atividades;
@@ -75,15 +79,25 @@ public class Usuario implements Serializable {
         this.status = status;
     }    
  
-    public String getCargo() {
-        return cargo;
-    }
+   
 
-    public void setCargo(String cargo) {
-        this.cargo = cargo;
-    }
+    public Setor getSetor() {
+		return setor;
+	}
 
-    public String getLogin() {
+	public void setSetor(Setor setor) {
+		this.setor = setor;
+	}
+
+	public Cargo getCargo() {
+		return cargo;
+	}
+
+	public void setCargo(Cargo cargo) {
+		this.cargo = cargo;
+	}
+
+	public String getLogin() {
         return login;
     }
 

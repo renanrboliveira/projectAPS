@@ -3,14 +3,19 @@ package com.renanoliveira.fachada;
 import java.util.List;
 
 import com.renanoliveira.dao.AtividadeDao;
+import com.renanoliveira.dao.CargoDao;
 import com.renanoliveira.dao.ClienteDao;
 import com.renanoliveira.dao.ProjetoDao;
 import com.renanoliveira.dao.RepositoryException;
+import com.renanoliveira.dao.SetorDao;
 import com.renanoliveira.dao.UsuarioDao;
 import com.renanoliveira.entity.Atividade;
+import com.renanoliveira.entity.Cargo;
 import com.renanoliveira.entity.Cliente;
 import com.renanoliveira.entity.Projeto;
+import com.renanoliveira.entity.Setor;
 import com.renanoliveira.entity.Usuario;
+import com.renanoliveira.logic.AtividadeBL;
 
 /**
  *
@@ -22,6 +27,9 @@ public class Fachada {
     private ProjetoDao projetoDao;
     private UsuarioDao usuarioDao;
     private ClienteDao clienteDao;
+    private AtividadeBL atividadeBL;
+    private SetorDao setorDao;
+    private CargoDao cargoDao;
     
     public Fachada(){
     
@@ -29,6 +37,9 @@ public class Fachada {
         projetoDao = new ProjetoDao();
         clienteDao = new ClienteDao();
         usuarioDao = new UsuarioDao();
+        atividadeBL = new AtividadeBL();
+        setorDao = new SetorDao();
+        cargoDao = new CargoDao();
     
     }
 
@@ -73,7 +84,7 @@ public class Fachada {
     }
 
     public void criarAtividade(Atividade atividade) throws RepositoryException {
-        atividadeDao.save(atividade);
+        atividadeBL.criarAtividade(atividade);
     }
 
     public void removerAtividade(Atividade atividade) {
@@ -128,4 +139,46 @@ public class Fachada {
 	public Atividade buscarAtividadePorNome(String nome) {
 		return atividadeDao.findByName(nome);
 	}
+	
+	public void criarSetor(Setor setor) throws RepositoryException {
+		setorDao.save(setor);
+	}
+
+	public void removerSetor(Setor setor) {
+		setorDao.delete(setor);
+	}
+
+	public Setor alterarSetor(Setor setor) {
+		return setorDao.update(setor);
+	}
+
+	public List<Setor> buscarTodosSetor() {
+		return setorDao.findAll();
+	}
+
+	public Setor buscarSetorPorID(int id) {
+		return setorDao.findId(id);
+	}
+	
+	public void criarCargo(Cargo cargo) throws RepositoryException {
+		cargoDao.save(cargo);
+	}
+
+	public void removerCargo(Cargo cargo) {
+		cargoDao.delete(cargo);
+	}
+
+	public Cargo alterarCargo(Cargo cargo) {
+		return cargoDao.update(cargo);
+	}
+
+	public List<Cargo> buscarTodosCargo() {
+		return cargoDao.findAll();
+	}
+
+	public Cargo buscarCargoPorID(int id) {
+		return cargoDao.findId(id);
+	}
+
+
 }
